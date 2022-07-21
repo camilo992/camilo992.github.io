@@ -1,0 +1,26 @@
+COMO INSTALAR TODO
+------------------
+
+npx create-react-app prueba5
+npm install react-bootstrap bootstrap
+npm install react-router-dom
+npm install sass
+
+
+para GitHub Pages
+- git init (dentro de la carpeta del proyecto)
+- git add . (echar todos los files)
+- git commit -m "first commit" (crea un commit con ls files hasta ahi)
+- git branch -M 'main' (crea main branch)
+- git remote add origin https://github.com/camilo992/TaokeCamilo.git
+- git push -u origin 'main' (puhes todo a hithib) (hasta acá quedo el repsitrio publicado en github. Ahora a publicarlo en GitHug Pages)
+
+instalar GitHub Pages (https://create-react-app.dev/docs/deployment/)
+npm install gh-pages --save-dev (esa opcion es para que en el package.json quede que no ships in pdotuctin es una herramienta de desarrollo)
+en package.json:
+	"homepage": "https://camilo992.github.io/TaokeCamilo",
+	"scripts": {
+	+   "predeploy": "npm run build",
+	+   "deploy": "gh-pages -b master -d build",
+npm run deploy (y sale pa pintura!! e teria)
+
