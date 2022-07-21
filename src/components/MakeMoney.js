@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import * as myConstants from './constants';
 
 //GRAPHIC AND AUDIO ASSETS
 import AnimationMakeMoneyStill from '../images/image_slot_machine_still.gif';  
@@ -102,7 +103,7 @@ const MakeMoney = () => {
             
       
             // API endpoint where we send form data.
-            const endpoint = 'http://localhost:3000/api/adddeposit'
+            const endpoint =myConstants.API_URL + '/adddeposit'
         
             // Form the request for sending data to the server.
             const options = {

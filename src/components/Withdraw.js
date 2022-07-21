@@ -54,7 +54,7 @@ const Withdraw = () => {
 
       
             // API endpoint where we send form data.
-            const endpoint = 'http://localhost:3000/api/addwithdrawal'
+            const endpoint =myConstants.API_URL + '/addwithdrawal'
         
             // Form the request for sending data to the server.
             const options = {

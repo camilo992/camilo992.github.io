@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Form, Modal, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import * as myConstants from './constants';
 
 const Deposit = () => {
 
@@ -72,7 +73,7 @@ const Deposit = () => {
 
       
             // API endpoint where we send form data.
-            const endpoint = 'http://localhost:3000/api/adddeposit'
+            const endpoint =myConstants.API_URL + '/adddeposit'
         
             // Form the request for sending data to the server.
             const options = {
