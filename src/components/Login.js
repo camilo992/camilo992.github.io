@@ -69,6 +69,7 @@ const Login = () => {
 
                 //CREA LA SESION
                 localStorage.setItem("user", result)
+                //console.log("usuario: " + JSON.stringify(result))
                 console.log("sesion creada!")
             } else {
                 //MUESTRA FORMA OTRA VEZ
