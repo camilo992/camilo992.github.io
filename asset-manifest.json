@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.229781f2.css",
-    "main.js": "/static/js/main.3bda51ea.js",
+    "main.css": "/static/css/main.beb98704.css",
+    "main.js": "/static/js/main.d8b6359a.js",
     "static/js/787.1f9122a3.chunk.js": "/static/js/787.1f9122a3.chunk.js",
     "static/media/image_slot_machine.gif": "/static/media/image_slot_machine.19d4992d0c9509e7f9f7.gif",
     "static/media/fa-solid-900.svg": "/static/media/fa-solid-900.13de59f1a36b6cb4bca0.svg",
@@ -11,25 +11,32 @@
     "static/media/fa-regular-400.svg": "/static/media/fa-regular-400.19e27d348fefc21941e0.svg",
     "static/media/fa-brands-400.eot": "/static/media/fa-brands-400.89a52ae1d02b86d61439.eot",
     "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.9e138496e8f1719c6ebf.ttf",
+    "static/media/image_withdrawal.jpg": "/static/media/image_withdrawal.2df47a4a643bfe641eff.jpg",
     "static/media/fa-solid-900.woff": "/static/media/fa-solid-900.c6ec080084769a6d8a34.woff",
     "static/media/sound_slot_machine_success.mp3": "/static/media/sound_slot_machine_success.4edd5b2e303643833df5.mp3",
     "static/media/fa-brands-400.woff": "/static/media/fa-brands-400.329a95a9172fdb2cccb4.woff",
-    "static/media/image_deposit.jpg": "/static/media/image_deposit.5d3f075d1b1502133ae5.jpg",
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.ada6e6df937f7e5e8b79.woff2",
+    "static/media/image_deposit.jpg": "/static/media/image_deposit.90f417ff544009399c14.jpg",
     "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.c1210e5ebe4344da5083.woff2",
+    "static/media/image_satisfied_customer.jpg": "/static/media/image_satisfied_customer.4c0ff8c6efc5da1ca0f2.jpg",
+    "static/media/image_treasure_splash_screen.jpg": "/static/media/image_treasure_splash_screen.08b84374ea1c25fbaf9d.jpg",
+    "static/media/image_rich_person.jpg": "/static/media/image_rich_person.0a37cec55e2284453deb.jpg",
+    "static/media/image_invitefriends.jpg": "/static/media/image_invitefriends.14326e13b0640cac6250.jpg",
     "static/media/sound_slot_machine.wav": "/static/media/sound_slot_machine.c9a95320a619c109cd31.wav",
+    "static/media/image_make_money.jpg": "/static/media/image_make_money.fc0eebcb0c230b3b9df1.jpg",
     "static/media/image_slot_machine_still.gif": "/static/media/image_slot_machine_still.81b13743e5c0947a62f9.gif",
     "static/media/fa-regular-400.eot": "/static/media/fa-regular-400.4079ae2d2a15d0689568.eot",
     "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.1017bce89c72f95bcf8e.ttf",
     "static/media/fa-regular-400.woff": "/static/media/fa-regular-400.3672264812746c3c7225.woff",
+    "static/media/image_monk_about_us.jpg": "/static/media/image_monk_about_us.198e5c5b289869eae9fa.jpg",
     "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.68c5af1f48e2bfca1e57.woff2",
     "index.html": "/index.html",
-    "main.229781f2.css.map": "/static/css/main.229781f2.css.map",
-    "main.3bda51ea.js.map": "/static/js/main.3bda51ea.js.map",
+    "main.beb98704.css.map": "/static/css/main.beb98704.css.map",
+    "main.d8b6359a.js.map": "/static/js/main.d8b6359a.js.map",
     "787.1f9122a3.chunk.js.map": "/static/js/787.1f9122a3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.229781f2.css",
-    "static/js/main.3bda51ea.js"
+    "static/css/main.beb98704.css",
+    "static/js/main.d8b6359a.js"
   ]
 }
