@@ -148,7 +148,7 @@ const MakeMoney = () => {
 
     return (        
         <div className="row justify-content-center">
-        <div className="col-lg-5 d-none d-lg-block bg-deposit-image"></div>
+        <div className="col-lg-5 d-none d-lg-block bg-make_money-image"></div>
         
     <div className="col-lg-7">
         <div className="p-5">
@@ -160,7 +160,7 @@ const MakeMoney = () => {
 
                 <div className="font-weight-bold text-success">Current balance: ${TotalAssets}</div>
                 <div className="font-weight-bold text-danger">Current interest rate: {interestRate}%</div>
-                <button className="btn btn-primary btn-user btn-block" onClick={GenerateInterest}>
+                <button className="btn btn-primary btn-user btn-block" onClick={GenerateInterest} disabled={data.showAnimation}>
                     Make Money!!!!
                 </button>
                 <div className='text-center'>

@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
 
 const Login = () => {
@@ -8,6 +9,11 @@ const Login = () => {
 
     const [data, setData] = useState({formValidated:false})
     console.log(data)
+
+    const NotwWorking = () => {
+        //alerts that this is not working yet
+        alert('We\'re working on this but right now it is not available')
+    }
 
     const onChange = (e) => {
         
@@ -71,6 +77,8 @@ const Login = () => {
                 localStorage.setItem("user", result)
                 //console.log("usuario: " + JSON.stringify(result))
                 console.log("sesion creada!")
+                window.location.reload()
+    
             } else {
                 //MUESTRA FORMA OTRA VEZ
                 document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
@@ -78,11 +86,6 @@ const Login = () => {
             
 
           }
-
-            console.log("lito vamos a recargar!!!")
-            window.location.reload()
-
-
        
     }
     
@@ -122,19 +125,19 @@ const Login = () => {
                                   Login
                               </button>
                               <hr/>
-                              <a href="index.html" className="btn btn-google btn-user btn-block">
-                                  <i className="fab fa-google fa-fw"></i> Login with Google
-                              </a>
-                              <a href="index.html" className="btn btn-facebook btn-user btn-block">
+                              <div  onClick={NotwWorking} className="btn btn-google btn-user btn-block">
+                                  <i className="fab fa-google fa-fw"></i>Login with Google
+                              </div>
+                              <div  onClick={NotwWorking} className="btn btn-facebook btn-user btn-block">
                                   <i className="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                              </a>
+                              </div>
                           </Form>
                           <hr/>
                           <div className="text-center">
-                              <a className="small" href="forgot-password.html">Forgot Password?</a>
+                            <Link className="small" to="#" onClick={NotwWorking}>Forgot Password?</Link>
                           </div>
                           <div className="text-center">
-                              <a className="small" href="/registro">Create an Account!</a>
+                              <Link className="small" to="/registro">Create an Account!</Link>
                           </div>
                       </div>
                   </div>

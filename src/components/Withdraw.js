@@ -100,7 +100,7 @@ const Withdraw = () => {
 
     return (        
         <div className="row justify-content-center">
-        <div className="col-lg-5 d-none d-lg-block bg-deposit-image"></div>
+        <div className="col-lg-5 d-none d-lg-block bg-withdrawal-image"></div>
         
     <div className="col-lg-7">
         <div className="p-5">

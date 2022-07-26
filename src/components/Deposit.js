@@ -101,10 +101,10 @@ const Deposit = () => {
             if (result.Respuesta === 'OK') {
 
                 //ESCONDE LA FORMA
-                //document.getElementById("FormaRegistro").remove();
+                document.getElementById("FormaRegistro").remove();
                 
                 //MUESTRA MENSAJE DE EXITO
-                //document.getElementById('cuerpo_forma').innerText = 'Your account was funded successfully!'  
+                document.getElementById('cuerpo_forma').innerText = 'Your account was funded successfully!'  
 
                 //UPDATES CURRENT LOGGED USER BALANCE
                 console.log('curUserLoggedIn.Balance: ' + curUserLoggedIn.Balance)
@@ -146,9 +146,10 @@ const Deposit = () => {
                     defaultValue={500}
                         placeholder="Type the amount to deposit" onChange={onChange}
                         title="Please write a valid amount" 
+                        max="1000"
                         required
                     />
-                    <Form.Control.Feedback type="invalid">Please write a valid amount</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Please write a valid amount. Maximum deposit is $1,000</Form.Control.Feedback>
                 </div>
                 <div className="form-group">
                 <Form.Select 

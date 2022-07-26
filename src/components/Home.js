@@ -1,5 +1,6 @@
-import React from 'react'
+import {React} from 'react'
 import { Row, Col, Image} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 //LOADS IMAGES
 import iconDeposit from '../images/icon_deposit.jpg';
@@ -8,7 +9,8 @@ import iconInviteFriends from '../images/icon_invitefriends.jpg';
 import iconSuperbonus from '../images/icon_superbonus.jpg';
 import iconCustomerService from '../images/icon_customerservice.jpg';
 import iconMakemoney from '../images/icon_makemoney.jpg';
-import { Link } from 'react-router-dom';
+
+
 
 export default function Home () {
 
@@ -16,6 +18,7 @@ export default function Home () {
     var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
 
+ 
                 return (
             
             <div className='justify-content-center'>

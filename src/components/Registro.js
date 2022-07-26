@@ -1,11 +1,18 @@
 import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
 import * as myConstants from './constants';
+import { Link } from 'react-router-dom';
 
 const Registro = () => {
 
     const [data, setData] = useState({formValidated:false})
     console.log(data)
+
+    const NotwWorking = () => {
+        //alerts that this is not working yet
+        alert('We\'re working on this but right now it is not available')
+    }
+
 
     const onChange = (e) => {
         const miform = e.currentTarget.form;
@@ -84,7 +91,7 @@ const Registro = () => {
             if (result.Respuesta === 'OK') {
 
                 //ESCONDE LA FORMA
-                //document.getElementById("FormaRegistro").remove();
+                document.getElementById("FormaRegistro").remove();
                 
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Your account was created successfully!'  
@@ -193,19 +200,19 @@ const Registro = () => {
                                   Register Account
                               </button>
                               <hr/>
-                              <a href="index.html" className="btn btn-google btn-user btn-block">
+                              <div  onClick={NotwWorking} className="btn btn-google btn-user btn-block">
                                   <i className="fab fa-google fa-fw"></i> Register with Google
-                              </a>
-                              <a href="index.html" className="btn btn-facebook btn-user btn-block">
+                              </div>
+                              <div onClick={NotwWorking} className="btn btn-facebook btn-user btn-block">
                                   <i className="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                              </a>
+                              </div>
                           </Form>
                           <hr/>
                           <div className="text-center">
-                              <a className="small" href="forgot-password.html">Forgot Password?</a>
+                            <Link className="small" to="#" onClick={NotwWorking}>Forgot Password?</Link>
                           </div>
                           <div className="text-center">
-                              <a className="small" href="/">Already have an account? Login!</a>
+                                <Link className="small" to="/">Already have an account? Login!</Link>
                           </div>
                       </div>
                   </div>
