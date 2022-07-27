@@ -15,4 +15,5 @@ export const WITHDRAWAL_ERROR_MESSAGES = [
 
 //API URL
 //export const API_URL = 'http://localhost:3000/api'
-export const API_URL = 'https://nextjsapp-camilo992.vercel.app/api'
+//export const API_URL = 'https://nextjsapp-camilo992.vercel.app/api'
+export const API_URL = 'https://nextjsapp-git-main-camilo992.vercel.app/'

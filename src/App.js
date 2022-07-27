@@ -3,6 +3,7 @@ import './App.css';
 import NavbarComp from './components/NavbarComp';
 import {Routes,Route,BrowserRouter} from "react-router-dom";
 import {Card, Container, Row, Col, Modal, Image} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 //COMPONENTS
 import About from "./components/About";
@@ -27,7 +28,7 @@ function App() {
   //if there is a session created, then splash screen won't show
   var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
 
-  var ShowModal = {showModalFirstTime:true};
+  var ShowModal = {showModalFirstTime:true  };
   if (dataUsuarioLogged !== '{}') {
     console.log('no mostrar mdal')
     ShowModal = {showModalFirstTime:false}
@@ -90,9 +91,9 @@ function ModalSplash(props) {
 
   return (
     <> 
-      <Modal show={props.show} onHide={handleClose} animation={true} fullscreen={true} size='md'>
+      <Modal show={props.show} onHide={handleClose} animation={true} fullscreen={true} size='md' onClick={handleClose}>
         <Modal.Body>
-          <Container className='text-center ' >
+          <Container className='text-center '>
             <Col className='align-items-center'>
               <Row className=''><div className='h2 text-center text-primary'>Welcome to Taoke Camilo!!</div></Row>
               <Row className=''>
