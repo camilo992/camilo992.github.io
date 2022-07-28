@@ -96,7 +96,7 @@ const MakeMoney = () => {
             var JSONdata = {}
             JSONdata.Amount = interestEarned
             JSONdata.Account = 9999 //THIS IS ONLY USED TO DEPOSIT MONEY IN DEPOSIT.JS
-            JSONdata.ID = curUserLoggedIn.ID
+            JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata)
 
             console.log('jsondata: ' + JSON.stringify(JSONdata))
@@ -129,10 +129,7 @@ const MakeMoney = () => {
 
             //SI SE REGISTRR OK
             if (result.Respuesta === 'OK') {
-
-                //ESCONDE LA FORMA
-                //document.getElementById("FormaRegistro").remove();
-                
+              
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Your account was credited successfully!'  
 

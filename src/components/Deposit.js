@@ -68,7 +68,7 @@ const Deposit = () => {
             
             //ADDDS ACCOUNT ID
             var curUserLoggedIn = JSON.parse(localStorage.getItem('user'))
-            JSONdata.ID = curUserLoggedIn.ID
+            JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata);
 
       

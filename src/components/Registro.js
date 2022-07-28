@@ -125,7 +125,7 @@ const Registro = () => {
                                       <Form.Control type="text" className="form-control-user"
                                           name="Nombres"
                                           id="Nombres"
-                                          value="Camilo"
+                                          defaultValue="Camilo"
                                           placeholder="Nombres"
                                           onChange={onChange}
                                           title="El nombre debe teber al menos 2 caracteres y no tener caracteres especiales" 
@@ -138,7 +138,7 @@ const Registro = () => {
                                       <Form.Control type="text" className="form-control-user"
                                         name="Apellidos"
                                           id="Apellidos"
-                                          value="Arango"
+                                          defaultValue="Arango"
                                           placeholder="Apellidos"
                                           onChange={onChange}
                                           title="El apellido debe teber al menos 2 caracteres y no tener caracteres especiales" 
@@ -152,7 +152,7 @@ const Registro = () => {
                                   <Form.Control type="date" className="form-control-user"
                                      id="Fecha"
                                      name = "Fecha"
-                                      value="1976-08-01"
+                                      defaultValue="1976-08-01"
                                       placeholder="01/01/2020"
                                       onChange={onChange}
                                       title="Por favor seleccione una fecha" 
@@ -164,7 +164,7 @@ const Registro = () => {
                                   <Form.Control type="email" className="form-control-user" 
                                     id="Email"
                                     name="Email"
-                                      value="pipas@cusquie.com"
+                                      defaultValue="pipas@cusquie.com"
                                       placeholder="Email Address" onChange={onChange}
                                       title="Escriba un email válido" 
                                       required
@@ -174,7 +174,7 @@ const Registro = () => {
                               <div className="form-group row">
                                   <div className="col-sm-6 mb-3 mb-sm-0">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                         value="1acamilo"
+                                         defaultValue="1acamilo"
                                           id="Password" 
                                           name="Password" 
                                           placeholder="Password" onChange={onChange}
@@ -186,7 +186,7 @@ const Registro = () => {
                                   </div>
                                   <div className="col-sm-6">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                      value="1acamilo"
+                                      defaultValue="1acamilo"
                                       name="RepeatPassword"
                                           id="RepeatPassword" placeholder="Repeat Password" onChange={onChange}
                                         title="El password debe coincidir con su confirmación" 
