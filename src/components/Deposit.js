@@ -143,7 +143,7 @@ const Deposit = () => {
                     <Form.Control type="number" 
                     id="Amount"
                     name="Amount"
-                    defaultValue={500}
+                    //defaultValue={500}
                         placeholder="Type the amount to deposit" onChange={onChange}
                         title="Please write a valid amount" 
                         max="1000"
@@ -160,7 +160,7 @@ const Deposit = () => {
                 >
                     <option value="">Please select an account to deposit from</option>
                     <option value="1" >My own bank account finished in 0987</option>
-                    <option value="2" selected>Another guy's bank account finished in 0765</option>
+                    <option value="2">Another guy's bank account finished in 0765</option>
                     <option value="3">Another guy's bank account finished in 0654</option>
                 </Form.Select>
             <Form.Control.Feedback type="invalid">Please select an account from the list</Form.Control.Feedback>

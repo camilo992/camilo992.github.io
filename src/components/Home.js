@@ -1,5 +1,5 @@
-import {React} from 'react'
-import { Row, Col, Image} from 'react-bootstrap';
+import {React, useRef, useState} from 'react'
+import { Row, Col, Image, Overlay, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 //LOADS IMAGES
@@ -10,13 +10,29 @@ import iconSuperbonus from '../images/icon_superbonus.jpg';
 import iconCustomerService from '../images/icon_customerservice.jpg';
 import iconMakemoney from '../images/icon_makemoney.jpg';
 
-
-
 export default function Home () {
 
     //TRAE USUARIO DE LOCALSTRGE SI EXISTE
     var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
+
+    //sets target for Tooltip
+    console.log('rendering Home...')
+    const [show, setShow] = useState(true);
+    const target = useRef(null);
+
+ 
+    const HideTooltip = () => {
+        console.log('hiding tooltip')
+        setShow(false);
+    }
+
+    //sets interval to hide tooltip in X seconds
+    if (show) {
+        console.log('tooltip WILL SHOW')
+       setTimeout(HideTooltip, 4000);
+    }
+    
 
  
                 return (
@@ -49,10 +65,23 @@ export default function Home () {
                         </Row>
                         <Row className='m-2'>
                             <Col className='p-2'>
-                                <Link to="/deposit">
-                                    <Image src={iconDeposit}/>
+                               <Link to="/deposit">
+                                    <Image src={iconDeposit} ref={target}/>
                                     <p className="font-weight-bold">Deposit</p>
                                 </Link>
+
+                            {/*tooltip over deposit*/}
+                            <Overlay target={target.current} show={show} placement="top">
+                                {(props) => (
+                                <Tooltip {...props}>
+                                                            <div>Welcome {dataUsuarioLogged.Nombres}!!</div>
+                                                            <div>Start by depositing some money in your account!</div>
+                                </Tooltip>
+                                )}
+                            </Overlay>
+
+
+
                             </Col>
                             <Col className='p-2'>
                             <Link to="/withdraw">

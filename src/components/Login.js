@@ -91,7 +91,7 @@ const Login = () => {
     
     return (
               <div className="row justify-content-center">
-                  <div className="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                  <div className="col-lg-5 d-none d-lg-block bg-login-image"></div>
                   <div className="col-lg-7">
                       <div className="p-5">
                           <div className="text-center" border="1">

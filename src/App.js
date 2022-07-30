@@ -3,7 +3,6 @@ import './App.css';
 import NavbarComp from './components/NavbarComp';
 import {Routes,Route,BrowserRouter} from "react-router-dom";
 import {Card, Container, Row, Col, Modal, Image} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 //COMPONENTS
 import About from "./components/About";

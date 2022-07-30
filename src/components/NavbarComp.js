@@ -1,6 +1,7 @@
 import {Navbar,Nav,Container} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 
+
 export default function NavbarComp (props) {
 
 
@@ -27,12 +28,13 @@ export default function NavbarComp (props) {
   <Container>
   <Navbar bg="warning" expand="lg">
     <Container>
-      <Navbar.Brand href="/">Taoke Camilo!</Navbar.Brand>
+      <Navbar.Brand className="text-white" href="/">Taoke Camilo!
+        </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link  to="/" as={Link}>Home</Nav.Link>
-          <Nav.Link to="/registro" as={Link}>Unete!</Nav.Link>
+          <Nav.Link to="/registro" as={Link}>Join!</Nav.Link>
           <Nav.Link to="/about" as={Link}>About</Nav.Link>
           <Nav.Link to="/contact" as={Link}>Contact</Nav.Link>
         </Nav>

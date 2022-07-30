@@ -125,75 +125,75 @@ const Registro = () => {
                                       <Form.Control type="text" className="form-control-user"
                                           name="Nombres"
                                           id="Nombres"
-                                          defaultValue="Camilo"
-                                          placeholder="Nombres"
+                                          //defaultvalue="Camilo"
+                                          placeholder="Name"
                                           onChange={onChange}
-                                          title="El nombre debe teber al menos 2 caracteres y no tener caracteres especiales" 
+                                          title="Name must have at least 2 characters and should not have any special characters " 
                                           pattern="^[a-zA-Z0-9]{2,25}$" 
                                           required
                                           />
-                                        <Form.Control.Feedback type="invalid">El nombre debe teber al menos 2 caracteres y no tener caracteres especiales</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">Name must have at least 2 characters and should not have any special characters </Form.Control.Feedback>
                                  </div>
                                   <div className="col-sm-6">
                                       <Form.Control type="text" className="form-control-user"
                                         name="Apellidos"
                                           id="Apellidos"
-                                          defaultValue="Arango"
-                                          placeholder="Apellidos"
+                                          //defaultvalue="Arango"
+                                          placeholder="Last name"
                                           onChange={onChange}
-                                          title="El apellido debe teber al menos 2 caracteres y no tener caracteres especiales" 
+                                          title="Last name must have at least 2 characters and should not have any special characters " 
                                           pattern="^[a-zA-Z0-9]{2,25}$" 
                                           required
                                         />
-                                        <Form.Control.Feedback type="invalid">El apellido debe teber al menos 2 caracteres y no tener caracteres especiales</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">Last name must have at least 2 characters and should not have any special characters </Form.Control.Feedback>
                                   </div>
                               </Form.Group>
                               <div className="form-group">
                                   <Form.Control type="date" className="form-control-user"
                                      id="Fecha"
                                      name = "Fecha"
-                                      defaultValue="1976-08-01"
-                                      placeholder="01/01/2020"
+                                      //defaultvalue="1976-08-01"
+                                      placeholder="1976-08-01"
                                       onChange={onChange}
-                                      title="Por favor seleccione una fecha" 
+                                      title="Please select a date" 
                                       required
                                     />
-                                    <Form.Control.Feedback type="invalid">Por favor seleccione una fecha</Form.Control.Feedback>
+                                    <Form.Control.Feedback type="invalid">Please select a date</Form.Control.Feedback>
                               </div>
                               <div className="form-group">
                                   <Form.Control type="email" className="form-control-user" 
                                     id="Email"
                                     name="Email"
-                                      defaultValue="pipas@cusquie.com"
+                                      //defaultvalue="pipas@cusquie.com"
                                       placeholder="Email Address" onChange={onChange}
-                                      title="Escriba un email válido" 
+                                      title="Please write a valid email address" 
                                       required
                                   />
-                                  <Form.Control.Feedback type="invalid">Escriba un email válido</Form.Control.Feedback>
+                                  <Form.Control.Feedback type="invalid">Please write a valid email address</Form.Control.Feedback>
                               </div>
                               <div className="form-group row">
                                   <div className="col-sm-6 mb-3 mb-sm-0">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                         defaultValue="1acamilo"
+                                         //defaultvalue="1acamilo"
                                           id="Password" 
                                           name="Password" 
                                           placeholder="Password" onChange={onChange}
-                                          title="El password debe teber al menos 8 caracteres, una letra y un número" 
+                                          title="Password must have at least 8 characters, one letter and one number" 
                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                           required
                                         />
-                                        <Form.Control.Feedback type="invalid">El password debe teber al menos 8 caracteres, una letra y un número</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">Password must have at least 8 characters, one letter and one number</Form.Control.Feedback>
                                   </div>
                                   <div className="col-sm-6">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                      defaultValue="1acamilo"
+                                      //defaultvalue="1acamilo"
                                       name="RepeatPassword"
                                           id="RepeatPassword" placeholder="Repeat Password" onChange={onChange}
-                                        title="El password debe coincidir con su confirmación" 
+                                        title="Password and password confiration should match" 
                                         pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                           required
                                         />
-                                        <Form.Control.Feedback type="invalid">El password debe coincidir con su confirmación</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">Password and password confirmation should match</Form.Control.Feedback>
                                   </div>
                               </div>
                               <button className="btn btn-primary btn-user btn-block">

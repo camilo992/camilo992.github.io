@@ -14,7 +14,7 @@ export default function Contact () {
                 <Image src={imageHands}/>
               </div>
         <Row className=''>
-            <div className='h4'>We're always happy to get in touch with you. Just put your hands togheter and get into your favorite meditating position; you will feel the light of our great leader within you.</div>
+            <div className='h4'>We're always happy to get in touch with you. Just put your hands togheter and get into your favorite meditative posture; you will feel the light of our great leader within you.</div>
         </Row>
       </Col>
     </Container>
