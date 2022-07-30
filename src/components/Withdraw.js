@@ -41,58 +41,13 @@ const Withdraw = () => {
     }
 
     const writeWithdrawal = async () => {
-            /*var Form = new FormData(document.forms[0]);
-            var JSONdata = Object.fromEntries(Form.entries());
-                   
-            //TOMA LA DATA DE LA FORMA Y LA VUELVE OBJETO JSON
-            //var JSONdata = JSON.parse(JSON.stringify(Object.fromEntries(Form)));
-            
-            //ADDDS ACCOUNT BALANCE ID
-            var curUserLoggedIn = JSON.parse(localStorage.getItem('user'))
-            JSONdata.ID = curUserLoggedIn.ID
-            JSONdata = JSON.stringify(JSONdata);
-
-      
-            // API endpoint where we send form data.
-            const endpoint =myConstants.API_URL + '/addwithdrawal'
-        
-            // Form the request for sending data to the server.
-            const options = {
-              // The method is POST because we are sending data.
-              method: 'POST',
-              // Tell the server we're sending JSON.            
-              //headers: {
-                //'Content-Type': 'application/json',
-              //},
-              // Body of the request is the JSON data we created above.
-              body: JSONdata,
-            }
-        
-            // Send the form data to our forms API on Vercel and get a response.
-            console.log('endpoint:' + endpoint)
-            console.log('options:' + JSON.stringify(options))
-    
-            const response = await fetch(endpoint, options)
-        
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
-            const result = await response.json()
-
-            //SI SE REGISTRR OK
-            if (result.Respuesta === 'OK') {*/
-
                 //ESCONDE LA FORMA
                 document.getElementById("FormaRegistro").remove();
                 
                 //SHOWS RAMDOM ERROR MESSAGE
                 var msgNum = Math.floor(Math.random()*9) //RANDOM NUMBER 0-9
                 document.getElementById('cuerpo_forma').innerText = myConstants.WITHDRAWAL_ERROR_MESSAGES[msgNum].errorMsg
-                //''  
-    
-            /*} else {
-                //MUESTRA MENSAJE DE EXITO
-                document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-            }*/
+   
    }
 
         
@@ -126,7 +81,7 @@ const Withdraw = () => {
                 <Form.Select 
                 id="Account" 
                 name="Account" 
-                defaultValue=""
+                //defaultValue=""
                 onChange={onChange}
                 required
                 >

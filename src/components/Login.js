@@ -102,7 +102,7 @@ const Login = () => {
                               <Form.Control type="email" className="form-control-user" 
                                     id="Email"
                                     name="Email"
-                                    defaultValue="pipas1@cusquie.com"
+                                    //defaultValue="pipas1@cusquie.com"
                                       placeholder="Email Address" onChange={onChange}
                                       title="Please write a valid email address" 
                                       required
@@ -113,7 +113,7 @@ const Login = () => {
                               <Form.Control type="password" className="form-control form-control-user"
                                 id="Password" 
                                 name="Password" 
-                                defaultValue="1acamilo"
+                                //defaultValue="1acamilo"
                                 placeholder="Password" onChange={onChange}
                                 title="Password must be at least 8 characters including one number and one letter" 
                                 pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
