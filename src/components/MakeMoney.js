@@ -2,8 +2,9 @@ import React, {useState} from 'react'
 import {Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
+import {GetLogedInUserData, UpdateLogedInUserData} from './mysession';
 
-//GRAPHIC AND AUDIO ASSETS
+//graphic and audio assets
 import AnimationMakeMoneyStill from '../images/image_slot_machine_still.gif';  
 import AnimationMakeMoney from '../images/image_slot_machine.gif';  
 import SlotMachineSound from '../audio/sound_slot_machine.wav';  
@@ -11,91 +12,67 @@ import SlotMachineSoundFinal from '../audio/sound_slot_machine_success.mp3';
 
 const MakeMoney = () => {
 
-    //TRAE USUARIO DE LOCALSTRGE SI EXISTE
-    var curUserLoggedIn = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
+    var curUserLoggedIn = GetLogedInUserData()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(curUserLoggedIn.Balance * 100) / 100).toFixed(2) + curUserLoggedIn.PromotionBonus + curUserLoggedIn.AcumProfits)
-    
-    //INTEREST RATE IS 1% PER EACH 1000 USD
-    var interestRate = Math.floor(curUserLoggedIn.Balance/1000)
-    console.log("interestRate:" + interestRate)
-
-    console.log("***RENDER PAPI***")
+    var interestRate = Math.floor(curUserLoggedIn.Balance/1000)  //interest rate is 1% per each 1000 usd
     var timesAnimationShowed = 0
     var interval;
-    var TotalTimesToShowAnimation = Math.floor(Math.random()*5) + 1 //RANDOM NUMBER BETWEEN 1 AND 5
-    console.log('TotalTimesToShowAnimation: ' + TotalTimesToShowAnimation)
+    var TotalTimesToShowAnimation = Math.floor(Math.random()*5) + 1 //between 1 and 5 seconds
     var Mysound
-
     var interestEarned
-
 
     const [data, setData] = useState({formValidated:false, showAnimation:false})
 
     const EndAnimation  = () => {
-        //TURNS ON/OFF ANIMATION
-        console.log('ApahgarAnimacion ')
-        //console.log('data.showAnimation: ' + data.showAnimation)
+        
         timesAnimationShowed++;
-        console.log('Veces: ' + timesAnimationShowed)
-        console.log('data.showAnimation: ' + data.showAnimation)
         if  ((timesAnimationShowed===TotalTimesToShowAnimation)||(!data.showAnimation)) {
             clearInterval(interval)
             
-            //APAGAMOS AUDIO
+            //turns off sound
             Mysound.pause()
 
-            //PLAY FINAL FANFARE AUDIO
+            //play final fanfare audio
             Mysound = new Audio (SlotMachineSoundFinal)
             Mysound.loop = false;
             Mysound.play()
 
-            //UPDTE BALANCE IN USER OBJECT
+            //updates balance in user session
             interestEarned = interestRate*+curUserLoggedIn.Balance/100
-            console.log('curUserLoggedIn.Balance: ' + curUserLoggedIn.Balance)
-            console.log('interestEarned: ' + interestEarned)
             curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +interestEarned
-            console.log('curUserLoggedIn.Balance: ater ' + curUserLoggedIn.Balance)
-            console.log('curUserLoggedIn after' + JSON.stringify(curUserLoggedIn))
-            localStorage.setItem("user", JSON.stringify(curUserLoggedIn))
+            UpdateLogedInUserData(curUserLoggedIn)
 
-            //WRITE BALANCE TO ACCOUNT
+            //updates user balance in server API
             sendMakeMoney();
             
-            //ANIMATION GOES OFF - RERENDER
-            console.log('APAGAMOS TIMER')
+            //re-render with animation turned off
             setData({...data, showAnimation:false});
             
         }        
     }
 
-    //IF SHOWING ANIMATION, SET TIMER
+    //if showing animation, set timer
     if (data.showAnimation) {
-        //inicia el itervalo
-        console.log('INICIA INTERVALO!')
+        //starts iterval
         interval = setInterval(EndAnimation, 4000);
 
-        //INICIA AUDIO
+        //starts audio
         Mysound = new Audio (SlotMachineSound)
         Mysound.loop = true;
         Mysound.play();
-        
-
     }
     
     const GenerateInterest = () => {
 
-        //SHOWS ANIMATION
-        console.log('MOSTRAMOS ANIMACION Y RE-RENDERERAMOS')
+        //rerenders to show animation
         setData({...data, showAnimation:true});
                 
     }
-
-    //***************************************************************************************************************
-     
+    
     const sendMakeMoney = async () => {
             var JSONdata = {}
             JSONdata.Amount = interestEarned
-            JSONdata.Account = 9999 //THIS IS ONLY USED TO DEPOSIT MONEY IN DEPOSIT.JS
+            JSONdata.Account = 9999 //this is only used to deposit money in deposit.js
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata)
 
@@ -139,9 +116,6 @@ const MakeMoney = () => {
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
             }
    }
-
-        
-
 
     return (        
         <div className="row justify-content-center">

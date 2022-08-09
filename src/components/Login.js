@@ -1,14 +1,20 @@
 import React, {useState} from 'react'
-import {Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
+import {UpdateLogedInUserData} from './mysession';
 import * as myConstants from './constants';
+
+//assets
+import imageTreasure from '../images/image_treasure_splash_screen.jpg';
 
 const Login = () => {
 
-    console.log("begin render login...")
+    const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
 
-    const [data, setData] = useState({formValidated:false})
-    console.log(data)
+    const closeModal = () => {
+        //updates state to hide modal
+        setData({...data, showModalFirstTime:false});
+    }
 
     const NotwWorking = () => {
         //alerts that this is not working yet
@@ -16,34 +22,21 @@ const Login = () => {
     }
 
     const onChange = (e) => {
-        
-        //ACTUALIZA EL ESTADO
-        console.log('on change event!')
+        //updates form data in state
         setData({...data, [e.target.id]: e.target.value});
-
     }
 
     const handleSubmit = async (e) => {
-
-        console.log('ENVIANDO FORMA..')
         const form = e.currentTarget;
+        e.preventDefault();
+        e.stopPropagation();
 
-        // ACTIVAMOS VALIDATION FORMAT PARA MOSTRAR LOS ERRORES
+        //activates validation format to show errors
         setData({...data, formValidated: true});
         
-        //SI LA FORMA NO ES OK
-        if (form.checkValidity() === false) {
-
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        else {
-
-            //ENVIAMOS LA FORMA
-            console.log('aca voy..')
-            e.preventDefault();
-            
-            //TOMA LA DATA DE LA FORMA Y LA VUELVE OBJETO JSON
+        if (form.checkValidity()) {
+  
+            //sends form to api
             const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
                        
             // API endpoint where we send form data.
@@ -73,24 +66,20 @@ const Login = () => {
             //IF AN OBJECT ARRIVED CREATES SESSION
             if (result !== '{}') {
 
-                //CREA LA SESION
-                localStorage.setItem("user", result)
-                //console.log("usuario: " + JSON.stringify(result))
-                console.log("sesion creada!")
+                //creates user session and reloads
+                UpdateLogedInUserData(JSON.parse(result))
                 window.location.reload()
     
             } else {
-                //MUESTRA FORMA OTRA VEZ
+                //shows error message
                 document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
             }
-            
-
           }
-       
     }
-    
+
     return (
               <div className="row justify-content-center">
+                <ModalSplash show={data.showModalFirstTime} handleClose={closeModal}/>
                   <div className="col-lg-5 d-none d-lg-block bg-login-image"></div>
                   <div className="col-lg-7">
                       <div className="p-5">
@@ -102,7 +91,7 @@ const Login = () => {
                               <Form.Control type="email" className="form-control-user" 
                                     id="Email"
                                     name="Email"
-                                    //defaultValue="pipas1@cusquie.com"
+                                    defaultValue="pipas1@cusquie.com"
                                       placeholder="Email Address" onChange={onChange}
                                       title="Please write a valid email address" 
                                       required
@@ -113,7 +102,7 @@ const Login = () => {
                               <Form.Control type="password" className="form-control form-control-user"
                                 id="Password" 
                                 name="Password" 
-                                //defaultValue="1acamilo"
+                                defaultValue="1acamilo"
                                 placeholder="Password" onChange={onChange}
                                 title="Password must be at least 8 characters including one number and one letter" 
                                 pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
@@ -144,5 +133,36 @@ const Login = () => {
               </div>
       );
 }
+
+function ModalSplash(props) {
     
-    export default Login;
+    return (
+      <> 
+        <Modal show={props.show} onHide={props.handleClose} animation={true} fullscreen={true} size='md' onClick={props.handleClose}>
+          <Modal.Body>
+            <Container className='text-center '>
+              <Col className='align-items-center'>
+                <Row className=''><div className='h2 text-center text-primary'>Welcome to Taoke Camilo!!</div></Row>
+                <Row className=''>
+                  <Col className=''><Image src={imageTreasure} width="50%" height="50%" fluid/></Col></Row>
+                <Row className=''>
+                    <div className='h4 text-center'>"It's like Taoke Order, but better!!"</div>
+                </Row>
+                <Row className=''>
+                <div className='h5 text-center'>Make money and never get lucky orders!!</div>
+                </Row>
+                <Row className=''>
+                <div className='h1 text-center text-danger'>Join Today!</div>
+                </Row>
+                
+              </Col>
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+  
+export default Login;

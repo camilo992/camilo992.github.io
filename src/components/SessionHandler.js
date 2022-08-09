@@ -1,21 +1,15 @@
 import Login from './Login';
+import {IsThereSession} from './mysession';
 
-export default function Pipas (props) {
+export default function SessionHandler (props) {
   
-    //GETS USER IF EXISTS
-    var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
-    
-    //IF USER FOUND
-    if (dataUsuarioLogged !== '{}') {
-        console.log("si hay user");
+    if (IsThereSession()) {
         return (  
         props.Component
         )
     }
     else {
-        console.log("no hay user");
         return (
-        //NO USER LOGGED IN, SHOW LOGIN FORM
         <Login/>
         )
     }

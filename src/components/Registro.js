@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const Registro = () => {
 
     const [data, setData] = useState({formValidated:false})
-    console.log(data)
 
     const NotwWorking = () => {
         //alerts that this is not working yet
@@ -17,45 +16,30 @@ const Registro = () => {
     const onChange = (e) => {
         const miform = e.currentTarget.form;
         
-        //ACTUALIZA EL ESTADO
+        //updates form data in state
         setData({...data, [e.target.id]: e.target.value});
 
-        //SI LA FORMAESTA EN MODO VALIDACION
-        if (data.formValidated === true) {
-            //SI LAS CLAVES NO COINCIDEN
-            if (miform.Password.value !== miform.RepeatPassword.value) {          
-                //ENCIENDE MENSAJE ERROR DE CINFIRMACION PASSWORD
+        if (data.formValidated) {
+            if (miform.Password.value !== miform.RepeatPassword.value)
+                //confirmation pasword doesn not match
                 miform.RepeatPassword.setCustomValidity("error");
-            }
-            else {
-                //SI COINCIDEN, BAJAR ERROR
+            else
+                //conirmation OK, set form as valid
                 miform.RepeatPassword.setCustomValidity("");
-            }
-
-    }
+        }
     }
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const form = e.currentTarget;
 
-        // ACTIVAMOS VALIDATION FORMAT PARA MOSTRAR LOS ERRORES
+        //activates validation format to show errors
         setData({...data, formValidated: true});
         
-        //SI LA FORMA NO ES OK
-        if (form.checkValidity() === false) {
+        if (form.checkValidity()) {
 
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        else {
-
-            //ENVIAMOS LA FORMA
-            e.preventDefault();
-            
-            //TOMA LA DATA DE LA FORMA Y LA VUELVE OBJETO JSON
             var JSONdata = JSON.parse(JSON.stringify(Object.fromEntries(new FormData(e.target))));
-            
-            //ADDDS ACCOUNT BALANCE & PROFITS
             JSONdata.Balance = 0;
             JSONdata.AcumProfits = 0;
             JSONdata.PromotionBonus = 0;
@@ -100,13 +84,7 @@ const Registro = () => {
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
             }
-            
-
-          }
-
-            console.log("listo!")        
-
-        
+          }       
     }
 
 

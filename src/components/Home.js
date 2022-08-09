@@ -1,8 +1,9 @@
 import {React, useRef, useState} from 'react'
 import { Row, Col, Image, Overlay, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {GetLogedInUserData} from './mysession';
 
-//LOADS IMAGES
+//loads images
 import iconDeposit from '../images/icon_deposit.jpg';
 import iconWithdraw from '../images/icon_withdraw.jpg';
 import iconInviteFriends from '../images/icon_invitefriends.jpg';
@@ -12,16 +13,13 @@ import iconMakemoney from '../images/icon_makemoney.jpg';
 
 export default function Home () {
 
-    //TRAE USUARIO DE LOCALSTRGE SI EXISTE
-    var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
+    var dataUsuarioLogged = GetLogedInUserData()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
 
     //sets target for Tooltip
-    console.log('rendering Home...')
     const [show, setShow] = useState(true);
     const target = useRef(null);
 
- 
     const HideTooltip = () => {
         console.log('hiding tooltip')
         setShow(false);
@@ -32,10 +30,8 @@ export default function Home () {
         console.log('tooltip WILL SHOW')
        setTimeout(HideTooltip, 4000);
     }
-    
-
  
-                return (
+    return (
             
             <div className='justify-content-center'>
                     <div className="m-5">
@@ -79,9 +75,6 @@ export default function Home () {
                                 </Tooltip>
                                 )}
                             </Overlay>
-
-
-
                             </Col>
                             <Col className='p-2'>
                             <Link to="/withdraw">

@@ -2,21 +2,16 @@ import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
+import {GetLogedInUserData} from './mysession';
 
 const Withdraw = () => {
 
-    //TRAE USUARIO DE LOCALSTRGE SI EXISTE
-    var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
-    console.log('dataUsuarioLogged' + JSON.stringify(dataUsuarioLogged))
-
-  const [data, setData] = useState({formValidated:false})
-    console.log(data)
+    var curUserLoggedIn = GetLogedInUserData()
+    const [data, setData] = useState({formValidated:false})
 
     const onChange = (e) => {
-        
-        //ACTUALIZA EL ESTADO
+        //updates form data in state
         setData({...data, [e.target.id]: e.target.value});
-
    }
     
     const handleSubmit = (e) => {
@@ -24,27 +19,19 @@ const Withdraw = () => {
         e.preventDefault();
         e.stopPropagation();
       
-        //IF FORM IS VALIDATED
-        if (form.checkValidity() === true) {
-
-            //SENDS WITHDRAWAL    
+        if (form.checkValidity()) {
             writeWithdrawal();
+        }
 
-
-          }
-
-            // ACTIVAMOS VALIDATION FORMAT PARA MOSTRAR LOS ERRORES
-            setData({...data, formValidated: true});
-            console.log("listo!")        
-
+        //activates validation format to shows errors in form
+        setData({...data, formValidated: true});
         
     }
 
     const writeWithdrawal = async () => {
-                //ESCONDE LA FORMA
+                //hides form
                 document.getElementById("FormaRegistro").remove();
-                
-                //SHOWS RAMDOM ERROR MESSAGE
+                //show random error message because you can't withdraw your money!!!
                 var msgNum = Math.floor(Math.random()*9) //RANDOM NUMBER 0-9
                 document.getElementById('cuerpo_forma').innerText = myConstants.WITHDRAWAL_ERROR_MESSAGES[msgNum].errorMsg
    
@@ -73,9 +60,9 @@ const Withdraw = () => {
                         placeholder="Type the amount to withdraw" onChange={onChange}
                         title="Please write a valid amount" 
                         required
-                        max = {dataUsuarioLogged.Balance}
+                        max = {curUserLoggedIn.Balance}
                     />
-                    <Form.Control.Feedback type="invalid">Please write a valid amount. Also, make sure it is not more than your current available balance (${dataUsuarioLogged.Balance})</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Please write a valid amount. Also, make sure it is not more than your current available balance (${curUserLoggedIn.Balance})</Form.Control.Feedback>
                 </div>
                 <div className="form-group">
                 <Form.Select 

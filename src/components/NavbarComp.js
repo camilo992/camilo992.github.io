@@ -1,28 +1,21 @@
 import {Navbar,Nav,Container} from 'react-bootstrap';
 import {Link} from "react-router-dom";
+import {IsThereSession, GetLogedInUserData, LogOutUser} from './mysession';
 
+export default function NavbarComp () {
 
-export default function NavbarComp (props) {
-
-
-    //TRAE USUARIO DE LOCALSTRGE SI EXISTE
-    var dataUsuarioLogged = localStorage.getItem("user") == null ? '{}':JSON.parse(localStorage.getItem("user"));
-
-    function LogOutUser()  {
-      localStorage.removeItem('user');
-      //FORCES RE-RENDER
+    function LogOut()  {
+      LogOutUser()
+      //forces re-render
       window.location.reload()
     }
 
-    //SI HAY SESION
-    var LoggedUser
-    if (dataUsuarioLogged !== '{}')
-      LoggedUser = <div>Signed in as: <a href="/" onClick={LogOutUser}>{dataUsuarioLogged.Nombres}</a></div>
-    else
-      LoggedUser = <div><a href="/">Sign in</a></div>
-
-      
-  
+    //builds sign in message
+    var signInMessage = <div><a href="/">Sign in</a></div>
+    if (IsThereSession()) {
+      var dataLogedInUser = GetLogedInUserData()
+      signInMessage = <div>Signed in as: <a href="/" onClick={LogOut}>{dataLogedInUser.Nombres}</a></div>
+    }
 
  return (
   <Container>
@@ -40,7 +33,7 @@ export default function NavbarComp (props) {
         </Nav>
         </Navbar.Collapse>
         <Navbar.Text>
-            {LoggedUser}
+            {signInMessage}
         </Navbar.Text>
     </Container>
   </Navbar>

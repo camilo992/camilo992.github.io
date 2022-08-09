@@ -2,17 +2,17 @@ import React, {useState} from 'react'
 import {Form, Modal, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
+import {GetLogedInUserData, UpdateLogedInUserData} from './mysession';
+
 
 const Deposit = () => {
 
     const [data, setData] = useState({formValidated:false, showModal:false})
-    console.log(data)
+    var curUserLoggedIn = GetLogedInUserData()
 
     const onChange = (e) => {
-        
-        //ACTUALIZA EL ESTADO
+        //updates form data in state
         setData({...data, [e.target.id]: e.target.value});
-
    }
     
     const handleSubmit = (e) => {
@@ -21,44 +21,30 @@ const Deposit = () => {
         e.preventDefault();
         e.stopPropagation();
       
-        //IF FORM IS VALIDATED
-        if (form.checkValidity() === true) {
+        if (form.checkValidity()) {
 
-            //IF BANK ACCOUNT SELECTED IS OWN SHOW WARNING
+            //if bank account selected is own show warning
             var curSelected = document.forms[0].Account.value
-            console.log('curSelected!' + curSelected)
             if (curSelected === '1') {
                 showModal = true;
             }
             else {
-                //SENDS DEPOSIT
+                //dends deposit to API
                 writeDeposit();
-
             }
-
           }
-
-            // ACTIVAMOS VALIDATION FORMAT PARA MOSTRAR LOS ERRORES
-            setData({...data, formValidated: true, showModal:showModal});
-            console.log("listo!")        
-
-        
+            //activates validation format to show errors
+            setData({...data, formValidated: true, showModal:showModal});        
     }
 
-    const closeModal = (sendForm) => {
-        
+    const closeModal = async (sendForm) => {
+        //if user stated OK own account, write deposit
         if (sendForm) {
-            console.log('se fue forma!!')
-            writeDeposit();
+            await writeDeposit();
         }
-        else
-            console.log('NO se fue forma!!')
         
-        
-        //ACTUALIZA EL ESTADO
-        console.log('cerrando modal')
+        //upadtes state to hide modal only
         setData({...data, showModal:false});
-
    }
 
     const writeDeposit = async () => {
@@ -66,14 +52,12 @@ const Deposit = () => {
             var JSONdata = Object.fromEntries(Form.entries());
             var depositAmount = JSONdata.Amount
             
-            //ADDDS ACCOUNT ID
-            var curUserLoggedIn = JSON.parse(localStorage.getItem('user'))
+            //adds account id
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata);
 
-      
             // API endpoint where we send form data.
-            const endpoint =myConstants.API_URL + '/adddeposit'
+            const endpoint = myConstants.API_URL + '/adddeposit'
         
             // Form the request for sending data to the server.
             const options = {
@@ -106,24 +90,15 @@ const Deposit = () => {
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Your account was funded successfully!'  
 
-                //UPDATES CURRENT LOGGED USER BALANCE
-                console.log('curUserLoggedIn.Balance: ' + curUserLoggedIn.Balance)
-                console.log('JSONdata.Amount: ' + depositAmount)
-                curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +depositAmount
-                console.log('curUserLoggedIn.Balance: ater ' + curUserLoggedIn.Balance)
-                console.log('curUserLoggedIn after' + JSON.stringify(curUserLoggedIn))
-                localStorage.setItem("user", JSON.stringify(curUserLoggedIn))
-
-
-    
-            } else {
+                //updates current session user data
+                curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +depositAmount     
+                UpdateLogedInUserData(curUserLoggedIn)
+            } 
+            else {
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
             }
    }
-
-        
-
 
     return (        
         <div className="row justify-content-center">
@@ -177,9 +152,8 @@ const Deposit = () => {
 }
 
 function ModalWarning(props) {
-    
 
-    const handleClose = (algo) => props.cerrar(algo);
+  const handleClose = (algo) => props.cerrar(algo);
   
     return (
       <> 
