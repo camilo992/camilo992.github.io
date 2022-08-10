@@ -2,13 +2,13 @@ import React, {useState} from 'react'
 import {Form, Modal, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
-import {GetLogedInUserData, UpdateLogedInUserData} from './mysession';
+import * as MySession from './mysession';
 
 
 const Deposit = () => {
 
     const [data, setData] = useState({formValidated:false, showModal:false})
-    var curUserLoggedIn = GetLogedInUserData()
+    var curUserLoggedIn = MySession.GetLogedInUserData()
 
     const onChange = (e) => {
         //updates form data in state
@@ -55,49 +55,27 @@ const Deposit = () => {
             //adds account id
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata);
-
-            // API endpoint where we send form data.
             const endpoint = myConstants.API_URL + '/adddeposit'
-        
-            // Form the request for sending data to the server.
             const options = {
-              // The method is POST because we are sending data.
               method: 'POST',
-              // Tell the server we're sending JSON.            
-              //headers: {
-                //'Content-Type': 'application/json',
-              //},
-              // Body of the request is the JSON data we created above.
               body: JSONdata,
             }
-        
-            // Send the form data to our forms API on Vercel and get a response.
-            console.log('endpoint:' + endpoint)
-            console.log('options:' + JSON.stringify(options))
-    
+            //sends request to API
             const response = await fetch(endpoint, options)
-        
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
             const result = await response.json()
 
-            //SI SE REGISTRR OK
             if (result.Respuesta === 'OK') {
-
-                //ESCONDE LA FORMA
+                //removes form
                 document.getElementById("FormaRegistro").remove();
-                
-                //MUESTRA MENSAJE DE EXITO
+                //shows success msg
                 document.getElementById('cuerpo_forma').innerText = 'Your account was funded successfully!'  
-
                 //updates current session user data
                 curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +depositAmount     
-                UpdateLogedInUserData(curUserLoggedIn)
+                MySession.UpdateLogedInUserData(curUserLoggedIn)
             } 
-            else {
-                //MUESTRA MENSAJE DE EXITO
+            else
+                //shows error msg
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-            }
    }
 
     return (        

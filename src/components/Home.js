@@ -1,7 +1,7 @@
 import {React, useRef, useState} from 'react'
 import { Row, Col, Image, Overlay, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {GetLogedInUserData} from './mysession';
+import * as MySession from './mysession';
 
 //loads images
 import iconDeposit from '../images/icon_deposit.jpg';
@@ -13,7 +13,7 @@ import iconMakemoney from '../images/icon_makemoney.jpg';
 
 export default function Home () {
 
-    var dataUsuarioLogged = GetLogedInUserData()
+    var dataUsuarioLogged = MySession.GetLogedInUserData()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
 
     //sets target for Tooltip
@@ -55,16 +55,14 @@ export default function Home () {
                     </div>
                     <div className="m-5">
                         <Row className="m-2">
-                            <Col className="h4 font-weight-bold">
+                            <Col className="h4 font-weight-bold d-flex justify-content-center">
                             Main Menu
                             </Col>
                         </Row>
                         <Row className='m-2'>
-                            <Col className='p-2'>
-                               <Link to="/deposit">
-                                    <Image src={iconDeposit} ref={target}/>
-                                    <p className="font-weight-bold">Deposit</p>
-                                </Link>
+                        <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/deposit"><Image src={iconDeposit} ref={target}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/deposit"><p className="font-weight-bold">Deposit</p></Link></div>
 
                             {/*tooltip over deposit*/}
                             <Overlay target={target.current} show={show} placement="top">
@@ -76,41 +74,29 @@ export default function Home () {
                                 )}
                             </Overlay>
                             </Col>
-                            <Col className='p-2'>
-                            <Link to="/withdraw">
-                                    <Image src={iconWithdraw}/>
-                                    <p className="font-weight-bold">Withdraw</p>
-                                </Link>
-                                
+                            <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/withdraw"><Image src={iconWithdraw} ref={target}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/withdraw"><p className="font-weight-bold">Withdraw</p></Link></div>                              
                             </Col>
-                            <Col className='p-2'>
-                            <Link to="/makemoney">
-                                    <Image src={iconMakemoney}/>
-                                    <p className="font-weight-bold">Make Money!!</p>
-                                </Link>
+                            
+                            <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/makemoney"><Image src={iconMakemoney}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/makemoney"><p className="font-weight-bold">Make Money!!</p></Link></div>
                             </Col>
+                            
                         </Row>
                         <Row className='m-2'>
-                            <Col className='p-2'>
-                            <Link to="/superbonus">
-                                <Image src={iconSuperbonus}/>
-                                <p className="font-weight-bold">Super Bonus!</p>
-                            </Link>
-                            
-                                
+                            <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/superbonus"><Image src={iconSuperbonus}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/superbonus"><p className="font-weight-bold">Super Bonus!</p></Link></div>
                             </Col>
-                            <Col className='p-2'>
-                            <Link to="/customerservice">
-                                <Image src={iconCustomerService}/>
-                                    <p className="font-weight-bold">Customer Service</p>
-                            </Link>
+                            <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/customerservice"><Image src={iconCustomerService}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/customerservice"><p className="font-weight-bold">Customer Service</p></Link></div>
                             </Col>
-                            <Col className='p-2'>
-                            <Link to="/invitefriends">
-                                <Image src={iconInviteFriends}/>
-                                <p className="font-weight-bold">Invite friends</p>
-                            </Link>
-
+                            <Col className='p-2 d-flex flex-column align-self-center'>
+                                <div className='d-flex justify-content-center '><Link to="/invitefriends"><Image src={iconInviteFriends}/></Link></div>
+                                <div className='d-flex justify-content-center '><Link to="/invitefriends"><p className="font-weight-bold">Invite friends</p></Link></div>
                             </Col>
                         </Row>
                     </div>

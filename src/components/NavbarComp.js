@@ -1,19 +1,19 @@
 import {Navbar,Nav,Container} from 'react-bootstrap';
 import {Link} from "react-router-dom";
-import {IsThereSession, GetLogedInUserData, LogOutUser} from './mysession';
+import * as MySession from './mysession';
 
 export default function NavbarComp () {
 
     function LogOut()  {
-      LogOutUser()
+      MySession.LogOutUser()
       //forces re-render
       window.location.reload()
     }
 
     //builds sign in message
     var signInMessage = <div><a href="/">Sign in</a></div>
-    if (IsThereSession()) {
-      var dataLogedInUser = GetLogedInUserData()
+    if (MySession.IsThereSession()) {
+      var dataLogedInUser = MySession.GetLogedInUserData()
       signInMessage = <div>Signed in as: <a href="/" onClick={LogOut}>{dataLogedInUser.Nombres}</a></div>
     }
 

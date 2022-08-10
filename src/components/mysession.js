@@ -1,7 +1,5 @@
 
 
-console.log("User aca yo-yo")
-
 export function IsThereSession () {
     //chekcs for session if _id is not empty
     let User = localStorage.getItem("user")

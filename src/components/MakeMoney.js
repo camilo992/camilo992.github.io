@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
-import {GetLogedInUserData, UpdateLogedInUserData} from './mysession';
+import * as MySession from './mysession';
 
 //graphic and audio assets
 import AnimationMakeMoneyStill from '../images/image_slot_machine_still.gif';  
@@ -12,7 +12,7 @@ import SlotMachineSoundFinal from '../audio/sound_slot_machine_success.mp3';
 
 const MakeMoney = () => {
 
-    var curUserLoggedIn = GetLogedInUserData()
+    var curUserLoggedIn = MySession.GetLogedInUserData()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(curUserLoggedIn.Balance * 100) / 100).toFixed(2) + curUserLoggedIn.PromotionBonus + curUserLoggedIn.AcumProfits)
     var interestRate = Math.floor(curUserLoggedIn.Balance/1000)  //interest rate is 1% per each 1000 usd
     var timesAnimationShowed = 0
@@ -40,7 +40,7 @@ const MakeMoney = () => {
             //updates balance in user session
             interestEarned = interestRate*+curUserLoggedIn.Balance/100
             curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +interestEarned
-            UpdateLogedInUserData(curUserLoggedIn)
+            MySession.UpdateLogedInUserData(curUserLoggedIn)
 
             //updates user balance in server API
             sendMakeMoney();
@@ -76,41 +76,19 @@ const MakeMoney = () => {
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata)
 
-            console.log('jsondata: ' + JSON.stringify(JSONdata))
-            
-      
-            // API endpoint where we send form data.
             const endpoint =myConstants.API_URL + '/adddeposit'
-        
-            // Form the request for sending data to the server.
             const options = {
-              // The method is POST because we are sending data.
               method: 'POST',
-              // Tell the server we're sending JSON.            
-              //headers: {
-                //'Content-Type': 'application/json',
-              //},
-              // Body of the request is the JSON data we created above.
               body: JSONdata,
             }
         
-            // Send the form data to our forms API on Vercel and get a response.
-            console.log('endpoint:' + endpoint)
-            console.log('options:' + JSON.stringify(options))
-    
+            //sends request to API
             const response = await fetch(endpoint, options)
-        
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
             const result = await response.json()
 
-            //SI SE REGISTRR OK
             if (result.Respuesta === 'OK') {
-              
-                //MUESTRA MENSAJE DE EXITO
+                //shows success msg
                 document.getElementById('cuerpo_forma').innerText = 'Your account was credited successfully!'  
-
-
             } else {
                 //MUESTRA MENSAJE DE EXITO
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'

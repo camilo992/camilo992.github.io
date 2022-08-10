@@ -46,44 +46,24 @@ const Registro = () => {
             JSONdata.TodaysProfits = 0;
             JSONdata = JSON.stringify(JSONdata);
       
-            // API endpoint where we send form data.
             const endpoint =myConstants.API_URL + '/adduser'
-        
-            // Form the request for sending data to the server.
             const options = {
-              // The method is POST because we are sending data.
               method: 'POST',
-              // Tell the server we're sending JSON.            
-              //headers: {
-                //'Content-Type': 'application/json',
-              //},
-              // Body of the request is the JSON data we created above.
               body: JSONdata,
-            }
-        
-            // Send the form data to our forms API on Vercel and get a response.
-            console.log('endpoint:' + endpoint)
-            console.log('options:' + JSON.stringify(options))
-    
+            } 
+            //sends request to API
             const response = await fetch(endpoint, options)
-        
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
             const result = await response.json()
 
             //SI SE REGISTRR OK
             if (result.Respuesta === 'OK') {
-
-                //ESCONDE LA FORMA
+                //hides form
                 document.getElementById("FormaRegistro").remove();
-                
-                //MUESTRA MENSAJE DE EXITO
+                //shows success msg
                 document.getElementById('cuerpo_forma').innerText = 'Your account was created successfully!'  
-    
-            } else {
-                //MUESTRA MENSAJE DE EXITO
+            } else
+                //shows error msg
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-            }
           }       
     }
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
-import {UpdateLogedInUserData} from './mysession';
+import * as MySession from './mysession';
 import * as myConstants from './constants';
 
 //assets
@@ -38,43 +38,40 @@ const Login = () => {
   
             //sends form to api
             const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
-                       
-            // API endpoint where we send form data.
             const endpoint = myConstants.API_URL + '/loginuser'
-            console.log ('endpnt:' + endpoint)
-        
-            // Form the request for sending data to the server.
             const options = {
-              // The method is POST because we are sending data.
               method: 'POST',
-              // Tell the server we're sending JSON.            
-              //headers: {
-                    //'Content-Type': 'application/json',
-              //},
-              // Body of the request is the JSON data we created above.
               body: JSONdata,
             }
         
-            // Send the form data to our forms API on Vercel and get a response.
-            const response = await fetch(endpoint, options)
-        
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
-            const result = await response.json();
-            console.log('por aca voy...')
+            // Fetch GET request with error handling
+            fetch(endpoint, options)
+                .then(async response => {
+                    const isJson = response.headers.get('content-type')?.includes('application/json');
+                    const data = isJson ? await response.json() : null;
 
-            //IF AN OBJECT ARRIVED CREATES SESSION
-            if (result !== '{}') {
+                    // check for error response
+                    if (!response.ok) {
+                        // get error message from body or default to response status
+                        const error = (data && data.message) || response.status;
+                        return Promise.reject(error);
+                    }
 
-                //creates user session and reloads
-                UpdateLogedInUserData(JSON.parse(result))
-                window.location.reload()
-    
-            } else {
-                //shows error message
-                document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
-            }
-          }
+                    if (data !== '{}') {
+
+                        //creates user session and reloads
+                        MySession.UpdateLogedInUserData(JSON.parse(data))
+                        window.location.reload()
+            
+                    } else {
+                        //shows error message
+                        document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        }
     }
 
     return (

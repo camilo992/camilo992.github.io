@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
-import {GetLogedInUserData} from './mysession';
+import * as MySession from './mysession';
 
 const Withdraw = () => {
 
-    var curUserLoggedIn = GetLogedInUserData()
+    var curUserLoggedIn = MySession.GetLogedInUserData()
     const [data, setData] = useState({formValidated:false})
 
     const onChange = (e) => {
