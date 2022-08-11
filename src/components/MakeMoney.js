@@ -76,7 +76,7 @@ const MakeMoney = () => {
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata)
 
-            const endpoint =myConstants.API_URL + '/adddeposit'
+            const endpoint =myConstants.config.API_URL + '/adddeposit'
             const options = {
               method: 'POST',
               body: JSONdata,
@@ -89,10 +89,9 @@ const MakeMoney = () => {
             if (result.Respuesta === 'OK') {
                 //shows success msg
                 document.getElementById('cuerpo_forma').innerText = 'Your account was credited successfully!'  
-            } else {
-                //MUESTRA MENSAJE DE EXITO
+            } else
+                //shows error msg
                 document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-            }
    }
 
     return (        

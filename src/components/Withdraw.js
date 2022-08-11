@@ -33,7 +33,7 @@ const Withdraw = () => {
                 document.getElementById("FormaRegistro").remove();
                 //show random error message because you can't withdraw your money!!!
                 var msgNum = Math.floor(Math.random()*9) //RANDOM NUMBER 0-9
-                document.getElementById('cuerpo_forma').innerText = myConstants.WITHDRAWAL_ERROR_MESSAGES[msgNum].errorMsg
+                document.getElementById('cuerpo_forma').innerText = myConstants.WITHDRAWAL_ERROR_MESSAGES[msgNum]
    
    }
 

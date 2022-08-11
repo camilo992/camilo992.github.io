@@ -55,7 +55,7 @@ const Deposit = () => {
             //adds account id
             JSONdata._id = curUserLoggedIn._id
             JSONdata = JSON.stringify(JSONdata);
-            const endpoint = myConstants.API_URL + '/adddeposit'
+            const endpoint = myConstants.config.API_URL + '/adddeposit'
             const options = {
               method: 'POST',
               body: JSONdata,

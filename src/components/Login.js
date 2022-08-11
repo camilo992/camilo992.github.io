@@ -38,7 +38,7 @@ const Login = () => {
   
             //sends form to api
             const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
-            const endpoint = myConstants.API_URL + '/loginuser'
+            const endpoint = myConstants.config.API_URL + '/loginuser'
             const options = {
               method: 'POST',
               body: JSONdata,
@@ -60,8 +60,9 @@ const Login = () => {
                     if (data !== '{}') {
 
                         //creates user session and reloads
-                        MySession.UpdateLogedInUserData(JSON.parse(data))
+                        MySession.LogInUser(JSON.parse(data))
                         window.location.reload()
+                        
             
                     } else {
                         //shows error message

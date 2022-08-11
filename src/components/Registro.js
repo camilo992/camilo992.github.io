@@ -46,7 +46,7 @@ const Registro = () => {
             JSONdata.TodaysProfits = 0;
             JSONdata = JSON.stringify(JSONdata);
       
-            const endpoint =myConstants.API_URL + '/adduser'
+            const endpoint =myConstants.config.API_URL + '/adduser'
             const options = {
               method: 'POST',
               body: JSONdata,
