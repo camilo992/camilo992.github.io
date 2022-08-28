@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
 import * as MySession from './mysession';
 
-
 const Deposit = () => {
 
     const [data, setData] = useState({formValidated:false, showModal:false})
-    var curUserLoggedIn = MySession.GetLogedInUserData()
 
     const onChange = (e) => {
         //updates form data in state
@@ -51,6 +49,7 @@ const Deposit = () => {
             var Form = new FormData(document.forms[0]);
             var JSONdata = Object.fromEntries(Form.entries());
             var depositAmount = JSONdata.Amount
+            var curUserLoggedIn = MySession.GetLogedInUserData()
             
             //adds account id
             JSONdata._id = curUserLoggedIn._id

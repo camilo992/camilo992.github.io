@@ -1,20 +1,20 @@
 import {Navbar,Nav,Container} from 'react-bootstrap';
-import {Link} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import * as MySession from './mysession';
 
-export default function NavbarComp () {
+export default function NavbarComp (props) {
 
     function LogOut()  {
       MySession.LogOutUser()
-      //forces re-render
-      window.location.reload()
+      //re-renders app complete
+      props.RerenderApp();
     }
 
     //builds sign in message
-    var signInMessage = <div><a href="/">Sign in</a></div>
+    var signInMessage = <div><Link to="/">Sign in</Link></div>
     if (MySession.IsThereSession()) {
       var dataLogedInUser = MySession.GetLogedInUserData()
-      signInMessage = <div>Signed in as: <a href="/" onClick={LogOut}>{dataLogedInUser.Nombres}</a></div>
+      signInMessage = <div>Signed in as: <Link to="/" onClick={LogOut}>{dataLogedInUser.Nombres}</Link></div>
     }
 
  return (
@@ -37,6 +37,7 @@ export default function NavbarComp () {
         </Navbar.Text>
     </Container>
   </Navbar>
+  <Outlet/>
   
   </Container>
   )

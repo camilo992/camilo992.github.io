@@ -2,7 +2,7 @@ import Login from './Login';
 import * as MySession from './mysession';
 
 export default function SessionHandler (props) {
-  
+ 
     if (MySession.IsThereSession()) {
         return (  
         props.Component
@@ -10,7 +10,7 @@ export default function SessionHandler (props) {
     }
     else {
         return (
-        <Login/>
+        <Login RerenderApp={props.RerenderApp}/>
         )
     }
   }

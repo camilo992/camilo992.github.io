@@ -10,6 +10,7 @@ import AnimationMakeMoney from '../images/image_slot_machine.gif';
 import SlotMachineSound from '../audio/sound_slot_machine.wav';  
 import SlotMachineSoundFinal from '../audio/sound_slot_machine_success.mp3';  
 
+
 const MakeMoney = () => {
 
     var curUserLoggedIn = MySession.GetLogedInUserData()
@@ -17,7 +18,7 @@ const MakeMoney = () => {
     var interestRate = Math.floor(curUserLoggedIn.Balance/1000)  //interest rate is 1% per each 1000 usd
     var timesAnimationShowed = 0
     var interval;
-    var TotalTimesToShowAnimation = Math.floor(Math.random()*5) + 1 //between 1 and 5 seconds
+    var TotalTimesToShowAnimation = 1 //Math.floor(Math.random()*5) + 1 //between 1 and 5 seconds
     var Mysound
     var interestEarned
 

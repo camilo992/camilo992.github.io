@@ -16,36 +16,40 @@ import CustomerService from './components/CustomerService';
 import InviteFriends from './components/InviteFriends';
 import SessionHandler from './components/SessionHandler';
 
+
 function App() {
 
-  const [miclave, setMiClave] = useState('')
-
-  const guardarClave = (clave) => {
-    setMiClave(clave)
+  const [data, setData] = useState(0)
+  
+  
+  
+  const RerenderApp = () => {
+    //forces re-render of full app by changing state data
+    setData(data+1);
   }
-
 
   return (
     <BrowserRouter>
     <div className='App'>
-      <NavbarComp/>
+    <NavbarComp RerenderApp={RerenderApp}/>
       <Container>
         <Row className="justify-content-center">
           <Col className="col-xl-10 col-lg-12 col-md-9">
             <Card className='o-hidden -0 shadow-lg my-5'>
             <Routes>
-              <Route path="/" element={<SessionHandler guardarClave={guardarClave} Component={<Home/>}/>}/>
-              <Route path="/Registro" element={<Registro/>} />
-              <Route path="/About" element={<About />} />
-              <Route path="/Contact" element={<Contact />} />
+                <Route path="/" element={<SessionHandler RerenderApp={RerenderApp} Component={<Home/>}/>}/>
+                <Route path="/registro" element={<Registro/>} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
               
-              {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
-              <Route path="/deposit" element={<SessionHandler guardarClave={guardarClave} Component={<Deposit/>}/>}/>
-              <Route path="/withdraw" element={<SessionHandler guardarClave={guardarClave} Component={<Withdraw/>}/>}/>
-              <Route path="/makemoney" element={<SessionHandler guardarClave={guardarClave} Component={<MakeMoney/>}/>}/>
-              <Route path="/superbonus" element={<SessionHandler guardarClave={guardarClave} Component={<SuperBonus/>}/>}/>
-              <Route path="/customerservice" element={<SessionHandler guardarClave={guardarClave} Component={<CustomerService/>}/>}/>
-              <Route path="/invitefriends" element={<SessionHandler guardarClave={guardarClave} Component={<InviteFriends/>}/>}/>
+                {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
+                <Route path="/home" element={<SessionHandler Component={<Home/>}/>}/>
+                <Route path="/deposit" element={<SessionHandler Component={<Deposit/>}/>}/>
+                <Route path="/withdraw" element={<SessionHandler Component={<Withdraw/>}/>}/>
+                <Route path="/makemoney" element={<SessionHandler Component={<MakeMoney/>}/>}/>
+                <Route path="/superbonus" element={<SessionHandler Component={<SuperBonus/>}/>}/>
+                <Route path="/customerservice" element={<SessionHandler Component={<CustomerService/>}/>}/>
+                <Route path="/invitefriends" element={<SessionHandler Component={<InviteFriends/>}/>}/>
             </Routes>
             </Card>
           </Col>            

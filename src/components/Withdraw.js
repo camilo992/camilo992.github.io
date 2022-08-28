@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
 import * as MySession from './mysession';
 
-const Withdraw = () => {
 
-    var curUserLoggedIn = MySession.GetLogedInUserData()
+
+const Withdraw = () => {
     const [data, setData] = useState({formValidated:false})
+    var curUserLoggedInBalance = MySession.GetLogedInUserData().Balance
 
     const onChange = (e) => {
         //updates form data in state
@@ -60,9 +61,9 @@ const Withdraw = () => {
                         placeholder="Type the amount to withdraw" onChange={onChange}
                         title="Please write a valid amount" 
                         required
-                        max = {curUserLoggedIn.Balance}
+                        max = {curUserLoggedInBalance}
                     />
-                    <Form.Control.Feedback type="invalid">Please write a valid amount. Also, make sure it is not more than your current available balance (${curUserLoggedIn.Balance})</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Please write a valid amount. Also, make sure it is not more than your current available balance (${curUserLoggedInBalance})</Form.Control.Feedback>
                 </div>
                 <div className="form-group">
                 <Form.Select 

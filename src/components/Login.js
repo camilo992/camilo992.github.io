@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import * as MySession from './mysession';
 import * as myConstants from './constants';
@@ -7,9 +7,12 @@ import * as myConstants from './constants';
 //assets
 import imageTreasure from '../images/image_treasure_splash_screen.jpg';
 
-const Login = () => {
+
+
+const Login = (props) => {
 
     const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
+    const navigate = useNavigate();
 
     const closeModal = () => {
         //updates state to hide modal
@@ -61,9 +64,8 @@ const Login = () => {
 
                         //creates user session and reloads
                         MySession.LogInUser(JSON.parse(data))
-                        window.location.reload()
-                        
-            
+                        //re-renders app complete
+                        props.RerenderApp();            
                     } else {
                         //shows error message
                         document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
