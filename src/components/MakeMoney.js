@@ -11,7 +11,7 @@ import SlotMachineSound from '../audio/sound_slot_machine.wav';
 import SlotMachineSoundFinal from '../audio/sound_slot_machine_success.mp3';  
 
 
-const MakeMoney = () => {
+const MakeMoney = (props) => {  
 
     var curUserLoggedIn = MySession.GetLogedInUserData()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(curUserLoggedIn.Balance * 100) / 100).toFixed(2) + curUserLoggedIn.PromotionBonus + curUserLoggedIn.AcumProfits)
@@ -37,14 +37,12 @@ const MakeMoney = () => {
             Mysound = new Audio (SlotMachineSoundFinal)
             Mysound.loop = false;
             Mysound.play()
-
             //updates balance in user session
             interestEarned = interestRate*+curUserLoggedIn.Balance/100
-            curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +interestEarned
-            MySession.UpdateLogedInUserData(curUserLoggedIn)
-
             //updates user balance in server API
             sendMakeMoney();
+
+            console.log('after send make monet!')
             
             //re-render with animation turned off
             setData({...data, showAnimation:false});
@@ -72,28 +70,62 @@ const MakeMoney = () => {
     
     const sendMakeMoney = async () => {
             var JSONdata = {}
+            //adds balance info fields
             JSONdata.Amount = interestEarned
             JSONdata.Account = 9999 //this is only used to deposit money in deposit.js
             JSONdata._id = curUserLoggedIn._id
-            JSONdata = JSON.stringify(JSONdata)
+            //adds token
+            var token =  MySession.GetToken()
+            JSONdata.token = token
 
-            const endpoint =myConstants.config.API_URL + '/adddeposit'
+            const endpoint = myConstants.config.API_URL + '/adddeposit'
             const options = {
               method: 'POST',
-              body: JSONdata,
+              body: JSON.stringify(JSONdata),
             }
-        
-            //sends request to API
-            const response = await fetch(endpoint, options)
-            const result = await response.json()
 
-            if (result.Respuesta === 'OK') {
-                //shows success msg
-                document.getElementById('cuerpo_forma').innerText = 'Your account was credited successfully!'  
-            } else
-                //shows error msg
-                document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-   }
+            //sends request to API
+            console.log('voy pa fetch! !!')
+
+            fetch(endpoint, options)  
+            .then(function(response) {
+              if(response.status === 200)
+                return response.json();
+              throw new Error('Server is down or not responding ' + response.status);
+            })  
+            .then(function(data) {
+                //verifies operation result
+                var strMsg
+                console.log('drvolvio esto:' + JSON.stringify(data))
+                console.log('si señordrvolvio:')
+                data = JSON.parse(data)
+                console.log('aca vivo!!|')
+                if (!data.error){
+                  strMsg = 'Your account was funded successfully!'
+                  token = data
+                  //updates current session user data
+                  console.log('puaca voy!!')
+                  MySession.UpdateLogedInUserData(token)
+                  //removes form
+                }
+    
+                else {
+                  //if error is expired token, re-render app. else, show error msg to user
+                  strMsg = data.error
+                  if (data.error === "invalid or expired token!") {
+                    alert('Your session expired. Please login again')
+                    MySession.LogOutUser()
+                    props.RerenderApp();
+                    
+                  }
+                }
+                document.getElementById('cuerpo_forma').innerText = strMsg
+              })  
+              //.catch(function(error) {
+                //just show error to user
+                //document.getElementById('cuerpo_forma').innerText = error
+              //});
+       }
 
     return (        
         <div className="row justify-content-center">

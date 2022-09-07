@@ -7,7 +7,7 @@ import {Card, Container, Row, Col} from 'react-bootstrap';
 import About from "./components/About";
 import Contact from './components/Contact';
 import Home from './components/Home';
-import Registro from './components/Registro';
+import Register from './components/Register';
 import Deposit from './components/Deposit';
 import Withdraw from './components/Withdraw';
 import MakeMoney from './components/MakeMoney';
@@ -20,11 +20,13 @@ import SessionHandler from './components/SessionHandler';
 function App() {
 
   const [data, setData] = useState(0)
+  console.log('rendring app..')
   
   
   
   const RerenderApp = () => {
     //forces re-render of full app by changing state data
+    console.log('rerendering app..')
     setData(data+1);
   }
 
@@ -37,16 +39,16 @@ function App() {
           <Col className="col-xl-10 col-lg-12 col-md-9">
             <Card className='o-hidden -0 shadow-lg my-5'>
             <Routes>
-                <Route path="/" element={<SessionHandler RerenderApp={RerenderApp} Component={<Home/>}/>}/>
-                <Route path="/registro" element={<Registro/>} />
+                <Route path="/" element={<SessionHandler RerenderApp={RerenderApp} Component={<Home RerenderApp={RerenderApp}/>}/>}/>
+                <Route path="/registro" element={<Register/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
               
                 {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
-                <Route path="/home" element={<SessionHandler Component={<Home/>}/>}/>
-                <Route path="/deposit" element={<SessionHandler Component={<Deposit/>}/>}/>
-                <Route path="/withdraw" element={<SessionHandler Component={<Withdraw/>}/>}/>
-                <Route path="/makemoney" element={<SessionHandler Component={<MakeMoney/>}/>}/>
+                <Route path="/home" element={<SessionHandler RerenderApp={RerenderApp} Component={<Home RerenderApp={RerenderApp} />}/>}/>
+                <Route path="/deposit" element={<SessionHandler RerenderApp={RerenderApp} Component={<Deposit RerenderApp={RerenderApp}/>}/>}/>
+                <Route path="/withdraw" element={<SessionHandler RerenderApp={RerenderApp} Component={<Withdraw RerenderApp={RerenderApp}/>}/>}/>
+                <Route path="/makemoney" element={<SessionHandler RerenderApp={RerenderApp} Component={<MakeMoney RerenderApp={RerenderApp}/>}/>}/>
                 <Route path="/superbonus" element={<SessionHandler Component={<SuperBonus/>}/>}/>
                 <Route path="/customerservice" element={<SessionHandler Component={<CustomerService/>}/>}/>
                 <Route path="/invitefriends" element={<SessionHandler Component={<InviteFriends/>}/>}/>

@@ -17,23 +17,23 @@ export default function Home () {
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
 
     //sets target for Tooltip
-    const [show, setShow] = useState(true);
+    const [showTooltip, setShowTooltip] = useState(true);
     const target = useRef(null);
 
     const HideTooltip = () => {
         console.log('hiding tooltip')
-        setShow(false);
+        setShowTooltip(false);
     }
 
     //sets interval to hide tooltip in X seconds
-    if (show) {
+    if (showTooltip) {
         console.log('tooltip WILL SHOW')
-       setTimeout(HideTooltip, 4000);
+        //setTimeout(HideTooltip, 4000);
     }
- 
+     
     return (
             
-            <div className='justify-content-center'>
+            <div className=''>
                     <div className="m-5">
                         <h4 className='text-left'>Welcome back {dataUsuarioLogged.Nombres}!</h4>
                         <Row className="border-bottom p-2">
@@ -55,17 +55,17 @@ export default function Home () {
                     </div>
                     <div className="m-5">
                         <Row className="m-2">
-                            <Col className="h4 font-weight-bold d-flex justify-content-center">
+                            <Col className="h4 font-weight-bold d-flex ">
                             Main Menu
                             </Col>
                         </Row>
                         <Row className='m-2'>
                         <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/deposit"><Image src={iconDeposit} ref={target}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/deposit"><p className="font-weight-bold">Deposit</p></Link></div>
+                                <div className='d-flex  '><Link to="/deposit"><Image src={iconDeposit} ref={target}/></Link></div>
+                                <div className='d-flex  '><Link to="/deposit"><p className="font-weight-bold">Deposit</p></Link></div>
 
                             {/*tooltip over deposit*/}
-                            <Overlay target={target.current} show={show} placement="top">
+                            <Overlay target={target.current} show={showTooltip} placement="top">
                                 {(props) => (
                                 <Tooltip {...props}>
                                                             <div>Welcome {dataUsuarioLogged.Nombres}!!</div>
@@ -75,28 +75,28 @@ export default function Home () {
                             </Overlay>
                             </Col>
                             <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/withdraw"><Image src={iconWithdraw} ref={target}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/withdraw"><p className="font-weight-bold">Withdraw</p></Link></div>                              
+                                <div className='d-flex  '><Link to="/withdraw"><Image src={iconWithdraw} ref={target}/></Link></div>
+                                <div className='d-flex  '><Link to="/withdraw"><p className="font-weight-bold">Withdraw</p></Link></div>                              
                             </Col>
                             
                             <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/makemoney"><Image src={iconMakemoney}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/makemoney"><p className="font-weight-bold">Make Money!!</p></Link></div>
+                                <div className='d-flex  '><Link to="/makemoney"><Image src={iconMakemoney}/></Link></div>
+                                <div className='d-flex  '><Link to="/makemoney"><p className="font-weight-bold">Make Money!!</p></Link></div>
                             </Col>
                             
                         </Row>
                         <Row className='m-2'>
                             <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/superbonus"><Image src={iconSuperbonus}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/superbonus"><p className="font-weight-bold">Super Bonus!</p></Link></div>
+                                <div className='d-flex  '><Link to="/superbonus"><Image src={iconSuperbonus}/></Link></div>
+                                <div className='d-flex  '><Link to="/superbonus"><p className="font-weight-bold">Super Bonus!</p></Link></div>
                             </Col>
                             <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/customerservice"><Image src={iconCustomerService}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/customerservice"><p className="font-weight-bold">Customer Service</p></Link></div>
+                                <div className='d-flex  '><Link to="/customerservice"><Image src={iconCustomerService}/></Link></div>
+                                <div className='d-flex  '><Link to="/customerservice"><p className="font-weight-bold">Customer Service</p></Link></div>
                             </Col>
                             <Col className='p-2 d-flex flex-column align-self-center'>
-                                <div className='d-flex justify-content-center '><Link to="/invitefriends"><Image src={iconInviteFriends}/></Link></div>
-                                <div className='d-flex justify-content-center '><Link to="/invitefriends"><p className="font-weight-bold">Invite friends</p></Link></div>
+                                <div className='d-flex  '><Link to="/invitefriends"><Image src={iconInviteFriends}/></Link></div>
+                                <div className='d-flex  '><Link to="/invitefriends"><p className="font-weight-bold">Invite friends</p></Link></div>
                             </Col>
                         </Row>
                     </div>

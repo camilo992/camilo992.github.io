@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import * as MySession from './mysession';
 import * as myConstants from './constants';
@@ -10,73 +10,73 @@ import imageTreasure from '../images/image_treasure_splash_screen.jpg';
 
 
 const Login = (props) => {
+  const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
 
-    const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
-    const navigate = useNavigate();
+  const closeModal = () => {
+      //updates state to hide modal
+      setData({...data, showModalFirstTime:false});
+  }
 
-    const closeModal = () => {
-        //updates state to hide modal
-        setData({...data, showModalFirstTime:false});
-    }
+  const NotwWorking = () => {
+      //alerts that this is not working yet
+      alert('We\'re working on this but right now it is not available')
+  }
 
-    const NotwWorking = () => {
-        //alerts that this is not working yet
-        alert('We\'re working on this but right now it is not available')
-    }
+  const onChange = (e) => {
+      //updates form data in state
+      setData({...data, [e.target.id]: e.target.value});
+  }
 
-    const onChange = (e) => {
-        //updates form data in state
-        setData({...data, [e.target.id]: e.target.value});
-    }
+  const handleSubmit = async (e) => {
+      const form = e.currentTarget;
+      e.preventDefault();
+      e.stopPropagation();
 
-    const handleSubmit = async (e) => {
-        const form = e.currentTarget;
-        e.preventDefault();
-        e.stopPropagation();
+      //activates validation format to show errors
+      setData({...data, formValidated: true});
+      
+      if (!form.checkValidity()) 
+        return;
 
-        //activates validation format to show errors
-        setData({...data, formValidated: true});
-        
-        if (form.checkValidity()) {
-  
-            //sends form to api
-            const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
-            const endpoint = myConstants.config.API_URL + '/loginuser'
-            const options = {
-              method: 'POST',
-              body: JSONdata,
-            }
-        
-            // Fetch GET request with error handling
-            fetch(endpoint, options)
-                .then(async response => {
-                    const isJson = response.headers.get('content-type')?.includes('application/json');
-                    const data = isJson ? await response.json() : null;
-
-                    // check for error response
-                    if (!response.ok) {
-                        // get error message from body or default to response status
-                        const error = (data && data.message) || response.status;
-                        return Promise.reject(error);
-                    }
-
-                    if (data !== '{}') {
-
-                        //creates user session and reloads
-                        MySession.LogInUser(JSON.parse(data))
-                        //re-renders app complete
-                        props.RerenderApp();            
-                    } else {
-                        //shows error message
-                        document.getElementById('cuerpo_forma').innerText = 'Mmm.. that didn\'t go well. Please try again..'
-                    }
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
+      //sends form to api
+      const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+      const endpoint = myConstants.config.API_URL + '/loginuser'
+      const options = {
+        method: 'POST',
+        body: JSONdata,
+      }
+      fetch(endpoint, options)  
+      .then(function(response) {
+          if(response.status === 200)
+            return response.json();
+        throw new Error('Server is down or not responding ' + response.status);
+      })  
+      .then(function(data) {
+        //verifies operation result
+        var strMsg
+        data = JSON.parse(data)
+        if (!data.error){
+          var token = data
+          //creates user session and reloads
+          MySession.LogInUser(token)
+          //re-renders app complete
+          props.RerenderApp(); 
         }
-    }
 
+        else {
+          //if user not found
+          strMsg = data.error
+          if (data.error === 'user not found!') {
+            strMsg = 'Mmm.. that didn\'t go well. Please try again..'
+          }
+        }
+        document.getElementById('cuerpo_forma').innerText = strMsg
+      })          
+      .catch(function(error) {
+          //just show error to user
+          document.getElementById('cuerpo_forma').innerText = error
+        });
+      }
     return (
               <div className="row justify-content-center">
                 <ModalSplash show={data.showModalFirstTime} handleClose={closeModal}/>

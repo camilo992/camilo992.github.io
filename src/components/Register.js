@@ -3,7 +3,7 @@ import {Form} from 'react-bootstrap';
 import * as myConstants from './constants';
 import { Link } from 'react-router-dom';
 
-const Registro = () => {
+const Register = () => {
 
     const [data, setData] = useState({formValidated:false})
 
@@ -40,6 +40,7 @@ const Registro = () => {
         if (form.checkValidity()) {
 
             var JSONdata = JSON.parse(JSON.stringify(Object.fromEntries(new FormData(e.target))));
+            //adds additional fields for user
             JSONdata.Balance = 0;
             JSONdata.AcumProfits = 0;
             JSONdata.PromotionBonus = 0;
@@ -51,20 +52,26 @@ const Registro = () => {
               method: 'POST',
               body: JSONdata,
             } 
-            //sends request to API
-            const response = await fetch(endpoint, options)
-            const result = await response.json()
 
-            //SI SE REGISTRR OK
-            if (result.Respuesta === 'OK') {
-                //hides form
-                document.getElementById("FormaRegistro").remove();
-                //shows success msg
-                document.getElementById('cuerpo_forma').innerText = 'Your account was created successfully!'  
-            } else
-                //shows error msg
-                document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
-          }       
+            fetch(endpoint, options)  
+            .then(function(response) {
+                if(response.status === 200)
+                  return response.json();
+              throw new Error('Server is down or not responding ' + response.status);
+            })
+            .then(function(data) {
+                //verifies operation result
+                var strMsg
+                data = JSON.parse(data)
+                if (data.error) {
+                    strMsg  = 'Your account was created successfully!'
+                    document.getElementById("FormRegister").remove();
+                }
+                else
+                    strMsg = data.error
+                document.getElementById('cuerpo_forma').innerText = strMsg
+            })
+        }       
     }
 
 
@@ -77,13 +84,13 @@ const Registro = () => {
                           <div className="text-center" border="1">
                               <h1 className="h4 text-gray-900 mb-4" id="cuerpo_forma">Create an Account!</h1>
                           </div>
-                          <Form id="FormaRegistro" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit}  method="POST">
+                          <Form id="FormRegister" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit}  method="POST">
                               <Form.Group className="form-group row">
                                   <div className="col-sm-6 mb-3 mb-sm-0">
                                       <Form.Control type="text" className="form-control-user"
                                           name="Nombres"
                                           id="Nombres"
-                                          //defaultvalue="Camilo"
+                                          defaultValue="Camilo"
                                           placeholder="Name"
                                           onChange={onChange}
                                           title="Name must have at least 2 characters and should not have any special characters " 
@@ -96,7 +103,7 @@ const Registro = () => {
                                       <Form.Control type="text" className="form-control-user"
                                         name="Apellidos"
                                           id="Apellidos"
-                                          //defaultvalue="Arango"
+                                          defaultValue="Arango"
                                           placeholder="Last name"
                                           onChange={onChange}
                                           title="Last name must have at least 2 characters and should not have any special characters " 
@@ -110,7 +117,7 @@ const Registro = () => {
                                   <Form.Control type="date" className="form-control-user"
                                      id="Fecha"
                                      name = "Fecha"
-                                      //defaultvalue="1976-08-01"
+                                      defaultValue="1976-08-01"
                                       placeholder="1976-08-01"
                                       onChange={onChange}
                                       title="Please select a date" 
@@ -122,7 +129,7 @@ const Registro = () => {
                                   <Form.Control type="email" className="form-control-user" 
                                     id="Email"
                                     name="Email"
-                                      //defaultvalue="pipas@cusquie.com"
+                                      defaultValue="pipas@cusquie.com"
                                       placeholder="Email Address" onChange={onChange}
                                       title="Please write a valid email address" 
                                       required
@@ -132,7 +139,7 @@ const Registro = () => {
                               <div className="form-group row">
                                   <div className="col-sm-6 mb-3 mb-sm-0">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                         //defaultvalue="1acamilo"
+                                         defaultValue="1acamilo"
                                           id="Password" 
                                           name="Password" 
                                           placeholder="Password" onChange={onChange}
@@ -144,7 +151,7 @@ const Registro = () => {
                                   </div>
                                   <div className="col-sm-6">
                                       <Form.Control type="password" className="form-control form-control-user"
-                                      //defaultvalue="1acamilo"
+                                      defaultValue="1acamilo"
                                       name="RepeatPassword"
                                           id="RepeatPassword" placeholder="Repeat Password" onChange={onChange}
                                         title="Password and password confiration should match" 
@@ -178,4 +185,4 @@ const Registro = () => {
     )
 }
 
-export default Registro;
+export default Register;

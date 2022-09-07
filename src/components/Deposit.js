@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as myConstants from './constants';
 import * as MySession from './mysession';
 
-const Deposit = () => {
+const Deposit = (props) => {
 
     const [data, setData] = useState({formValidated:false, showModal:false})
 
@@ -27,7 +27,7 @@ const Deposit = () => {
                 showModal = true;
             }
             else {
-                //dends deposit to API
+                //sends deposit to API
                 writeDeposit();
             }
           }
@@ -36,45 +36,67 @@ const Deposit = () => {
     }
 
     const closeModal = async (sendForm) => {
-        //if user stated OK own account, write deposit
-        if (sendForm) {
-            await writeDeposit();
-        }
-        
-        //upadtes state to hide modal only
-        setData({...data, showModal:false});
+      //if user stated OK own account, write deposit
+      if (sendForm) {
+          await writeDeposit();
+      }
+      
+      //upadtes state to hide modal only
+      setData({...data, showModal:false});
    }
 
     const writeDeposit = async () => {
-            var Form = new FormData(document.forms[0]);
-            var JSONdata = Object.fromEntries(Form.entries());
-            var depositAmount = JSONdata.Amount
-            var curUserLoggedIn = MySession.GetLogedInUserData()
-            
-            //adds account id
-            JSONdata._id = curUserLoggedIn._id
-            JSONdata = JSON.stringify(JSONdata);
-            const endpoint = myConstants.config.API_URL + '/adddeposit'
-            const options = {
-              method: 'POST',
-              body: JSONdata,
-            }
-            //sends request to API
-            const response = await fetch(endpoint, options)
-            const result = await response.json()
+          var Form = new FormData(document.forms[0]);
+          var JSONdata = Object.fromEntries(Form.entries());
+          
+          //adds account id
+          JSONdata._id = MySession.GetLogedInUserData()._id
+                    
+          //adds token
+          var token =  MySession.GetToken()
+          JSONdata.token = token
 
-            if (result.Respuesta === 'OK') {
-                //removes form
-                document.getElementById("FormaRegistro").remove();
-                //shows success msg
-                document.getElementById('cuerpo_forma').innerText = 'Your account was funded successfully!'  
-                //updates current session user data
-                curUserLoggedIn.Balance =  +curUserLoggedIn.Balance + +depositAmount     
-                MySession.UpdateLogedInUserData(curUserLoggedIn)
-            } 
-            else
-                //shows error msg
-                document.getElementById('cuerpo_forma').innerText = 'Something went wrong, please try again..'
+          const endpoint = myConstants.config.API_URL + '/adddeposit'
+          const options = {
+            method: 'POST',
+            body: JSON.stringify(JSONdata),
+          }
+
+          fetch(endpoint, options)  
+          .then(function(response) {
+            if(response.status === 200)
+              return response.json();
+            throw new Error('Server is down or not responding ' + response.status);
+          })  
+          .then(function(data) {
+            //verifies operation result
+            var strMsg
+            data = JSON.parse(data)
+            if (!data.error){
+              strMsg = 'Your account was funded successfully!'
+              token = data
+              //updates current session user data
+              MySession.UpdateLogedInUserData(token)
+              //removes form
+              document.getElementById("FormDeposit").remove();
+            }
+
+            else {
+              //if error is expired token, re-render app. else, show error msg to user
+              strMsg = data.error
+              if (data.error === "invalid or expired token!") {
+                alert('Your session expired. Please login again')
+                MySession.LogOutUser()
+                props.RerenderApp();
+                
+              }
+            }
+            document.getElementById('cuerpo_forma').innerText = strMsg
+          })  
+          .catch(function(error) {
+            //just show error to user
+            document.getElementById('cuerpo_forma').innerText = error
+          });
    }
 
     return (        
@@ -88,7 +110,7 @@ const Deposit = () => {
                 <h1 className="h5 mb-4"><Link to="/">Home</Link> / Make Deposit</h1>
                 <h1 className="h4 text-gray-900 mb-4 text-center" id="cuerpo_forma">Make Deposit</h1>
             </div>
-            <Form id="FormaRegistro" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
+            <Form id="FormDeposit" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
             <p className=''>Please fill out this form to deposit funds on your Taoke Camilo account</p>
 
                 <div className="form-group">

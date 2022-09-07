@@ -24,12 +24,13 @@ function ConfigureStorageAndEncryption(secret) {
 
 export function IsThereSession () {
 
-    let User = ls.get('user')
+    let token = ls.get('user')
 
-    if (User) {
+    if (token) {
         //checks i user is valid user object
         try {
-            let Userid = JSON.parse(User)._id;
+            //extracts user from token payload
+            let Userid = JSON.parse(window.atob(token.split('.')[1]))._id;
             return Userid ? true: false;
         } catch(e) {
             //Not an user or there is no secret to decrypt:
@@ -40,26 +41,36 @@ export function IsThereSession () {
         return false;
 }
 
-export function LogInUser(user) {
+export function LogInUser(token) {
 
+    //extracts user from token payload
+    var user = JSON.parse(window.atob(token.split('.')[1]));
     ConfigureStorageAndEncryption(user._id);
-    ls.set('user', JSON.stringify(user));
+    ls.set('user', JSON.stringify(token));
     return 1;
 }
 
-export function UpdateLogedInUserData(user) {
-    ls.set('user', JSON.stringify(user));
+export function UpdateLogedInUserData(token) {
+    ls.set('user', JSON.stringify(token));
     return 1;
 }
 
 export function GetLogedInUserData() {
-    var User = ls.get('user')
+    var token = JSON.stringify(ls.get('user'))
+   
     try {
-        User = JSON.parse(User);
+        //extracts user from token payload
+        var User = JSON.parse(window.atob(token.split('.')[1]));
     } catch(e) {
         console.log(e)
     }
     return User;
+}
+
+export function GetToken()  {
+    console.log('aca en gettoek')
+    var token = ls.get('user')
+    return token;
 }
 
 export function LogOutUser()  {
