@@ -152,7 +152,7 @@ const Deposit = (props) => {
 
 function ModalWarning(props) {
 
-  const handleClose = (algo) => props.cerrar(algo);
+  const handleClose = () => props.cerrar();
   
     return (
       <> 
