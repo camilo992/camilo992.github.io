@@ -33,6 +33,7 @@ const Login = (props) => {
       e.stopPropagation();
 
       //activates validation format to show errors
+      console.log("hola mundo!")
       setData({...data, formValidated: true});
       
       if (!form.checkValidity()) 
