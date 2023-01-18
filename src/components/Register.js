@@ -4,7 +4,7 @@ import * as myConstants from './constants';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
-
+    console.log('**HACIENDO REGISTER..')  
     const [data, setData] = useState({formValidated:false})
 
     const NotwWorking = () => {
@@ -63,12 +63,15 @@ const Register = () => {
                 //verifies operation result
                 var strMsg
                 data = JSON.parse(data)
-                if (data.error) {
+                if (data.success) {
                     strMsg  = 'Your account was created successfully!'
+                    console.log('data.success: ' + data.success)
                     document.getElementById("FormRegister").remove();
                 }
                 else
                     strMsg = data.error
+                    console.log('puaca sumerce')
+                    console.log('data.error: ' + data.error)
                 document.getElementById('cuerpo_forma').innerText = strMsg
             })
         }       

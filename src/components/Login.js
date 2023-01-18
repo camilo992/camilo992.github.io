@@ -12,6 +12,8 @@ import imageTreasure from '../images/image_treasure_splash_screen.jpg';
 const Login = (props) => {
   const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
 
+  console.log('**RENDER LOGIN..')
+
   const closeModal = () => {
       //updates state to hide modal
       setData({...data, showModalFirstTime:false});
@@ -33,8 +35,9 @@ const Login = (props) => {
       e.stopPropagation();
 
       //activates validation format to show errors
-      console.log("hola mundo!")
+      console.log('handle sbmit!')
       setData({...data, formValidated: true});
+      console.log('after setdata para mostrar errors in form..')
       
       if (!form.checkValidity()) 
         return;
@@ -57,11 +60,11 @@ const Login = (props) => {
         var strMsg
         data = JSON.parse(data)
         if (!data.error){
-          var token = data
           //creates user session and reloads
-          MySession.LogInUser(token)
+          console.log('en LOGIN, login OK, llamando a MySession.LogInUser(token)')
+          MySession.StoreToken(data)
           //re-renders app complete
-          props.RerenderApp(); 
+          props.RerenderApp(true, true); 
         }
 
         else {
@@ -74,9 +77,9 @@ const Login = (props) => {
         document.getElementById('cuerpo_forma').innerText = strMsg
       })          
       .catch(function(error) {
-          //just show error to user
-          document.getElementById('cuerpo_forma').innerText = error
-        });
+        //just show error to user
+        document.getElementById('cuerpo_forma').innerText = error
+       });
       }
     return (
               <div className="row justify-content-center">

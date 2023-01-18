@@ -11,10 +11,11 @@ import iconSuperbonus from '../images/icon_superbonus.jpg';
 import iconCustomerService from '../images/icon_customerservice.jpg';
 import iconMakemoney from '../images/icon_makemoney.jpg';
 
-export default function Home () {
+const Home = (props) => {
 
-    var dataUsuarioLogged = MySession.GetLogedInUserData()
-    var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(dataUsuarioLogged.Balance * 100) / 100).toFixed(2) + dataUsuarioLogged.PromotionBonus + dataUsuarioLogged.AcumProfits)
+    console.log('**HACIENDO HOME')
+    var User = MySession.GetUserDatafromToken()
+    var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(User.Balance * 100) / 100).toFixed(2) + User.PromotionBonus + User.AcumProfits)
 
     //sets target for Tooltip
     const [showTooltip, setShowTooltip] = useState(true);
@@ -28,14 +29,14 @@ export default function Home () {
     //sets interval to hide tooltip in X seconds
     if (showTooltip) {
         console.log('tooltip WILL SHOW')
-        //setTimeout(HideTooltip, 4000);
+        setTimeout(HideTooltip, 4000);
     }
      
     return (
             
             <div className=''>
                     <div className="m-5">
-                        <h4 className='text-left'>Welcome back {dataUsuarioLogged.Nombres}!</h4>
+                        <h4 className='text-left'>Welcome back {User.Nombres}!</h4>
                         <Row className="border-bottom p-2">
                             <Col className="text-left">
                             My total assets: <div className="font-weight-bold h3 text-success">${TotalAssets}</div>
@@ -43,13 +44,13 @@ export default function Home () {
                         </Row>
                         <Row className='m-2 small'>
                             <Col className='border-right'>
-                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(dataUsuarioLogged.TodaysProfits)}</div>Today's Profits 
+                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(User.TodaysProfits)}</div>Today's Profits 
                             </Col>
                             <Col>
-                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(dataUsuarioLogged.PromotionBonus)}</div>Promotion Bonus 
+                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(User.PromotionBonus)}</div>Promotion Bonus 
                             </Col>
                             <Col className='border-left'>
-                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(dataUsuarioLogged.AcumProfits)}</div>Accumulated Profits
+                            <div className="font-weight-bold h5">${Intl.NumberFormat('en-US').format(User.AcumProfits)}</div>Accumulated Profits
                             </Col>
                         </Row>
                     </div>
@@ -68,7 +69,7 @@ export default function Home () {
                             <Overlay target={target.current} show={showTooltip} placement="top">
                                 {(props) => (
                                 <Tooltip {...props}>
-                                                            <div>Welcome {dataUsuarioLogged.Nombres}!!</div>
+                                                            <div>Welcome {User.Nombres}!!</div>
                                                             <div>Start by depositing some money in your account!</div>
                                 </Tooltip>
                                 )}
@@ -105,3 +106,4 @@ export default function Home () {
 
         )
 }
+export default Home;

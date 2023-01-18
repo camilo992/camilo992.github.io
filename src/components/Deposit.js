@@ -6,14 +6,16 @@ import * as MySession from './mysession';
 
 const Deposit = (props) => {
 
-    const [data, setData] = useState({formValidated:false, showModal:false})
+  console.log('**HACIENDO DEPOSIT..')  
+  var User = MySession.GetUserDatafromToken()
+  const [data, setData] = useState({formValidated:false, showModal:false})
 
     const onChange = (e) => {
         //updates form data in state
         setData({...data, [e.target.id]: e.target.value});
    }
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         var showModal = false;
         const form = e.currentTarget;
         e.preventDefault();
@@ -28,7 +30,7 @@ const Deposit = (props) => {
             }
             else {
                 //sends deposit to API
-                writeDeposit();
+                await writeDeposit();
             }
           }
             //activates validation format to show errors
@@ -50,12 +52,11 @@ const Deposit = (props) => {
           var JSONdata = Object.fromEntries(Form.entries());
           
           //adds account id
-          JSONdata._id = MySession.GetLogedInUserData()._id
+          JSONdata._id = User._id
                     
           //adds token
           var token =  MySession.GetToken()
           JSONdata.token = token
-
           const endpoint = myConstants.config.API_URL + '/adddeposit'
           const options = {
             method: 'POST',
@@ -73,10 +74,13 @@ const Deposit = (props) => {
             var strMsg
             data = JSON.parse(data)
             if (!data.error){
-              strMsg = 'Your account was funded successfully!'
               token = data
               //updates current session user data
-              MySession.UpdateLogedInUserData(token)
+              MySession.StoreToken(token)
+              User = MySession.GetUserDatafromToken()
+              strMsg = 'Your account was funded successfully!. Your new balance is $' + Intl.NumberFormat('en-US').format((Math.round(User.Balance * 100) / 100).toFixed(2))
+              
+
               //removes form
               document.getElementById("FormDeposit").remove();
             }
@@ -86,8 +90,8 @@ const Deposit = (props) => {
               strMsg = data.error
               if (data.error === "invalid or expired token!") {
                 alert('Your session expired. Please login again')
-                MySession.LogOutUser()
-                props.RerenderApp();
+                MySession.DeleteToken()
+                props.RerenderApp(false,false);
                 
               }
             }
@@ -152,7 +156,7 @@ const Deposit = (props) => {
 
 function ModalWarning(props) {
 
-  const handleClose = () => props.cerrar();
+  const handleClose = (sendForm) => props.cerrar(sendForm);
   
     return (
       <> 

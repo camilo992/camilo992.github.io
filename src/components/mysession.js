@@ -2,7 +2,6 @@ import ls from 'localstorage-slim';
 import encUTF8 from 'crypto-js/enc-utf8';
 import AES from 'crypto-js/aes';
 
-
 function ConfigureStorageAndEncryption(secret) {
     // update localstorage-slim
     ls.config.encrypt = true;             // global encryption
@@ -16,64 +15,51 @@ function ConfigureStorageAndEncryption(secret) {
         } catch (e) {
             // incorrect/missing secret, session is dead
             console.log('incorrect missing secret')
-            LogOutUser()
+            DeleteToken()
             return -1;
         }
         };
 }
 
-export function IsThereSession () {
+export function StoreToken(token) {
+    //saves token ecncrypted on localstorage
+    //extracts user from token payload
+    //var user = JSON.parse(window.atob(token.split('.')[1]));
+    //ConfigureStorageAndEncryption(user._id);
+    ls.set('user', token);
+    return;
+}
 
-    let token = ls.get('user')
+export function GetUserDatafromToken() {
+    //gets user object from currentlñy stored token in localstorage
+    var token = null
 
-    if (token) {
-        //checks i user is valid user object
+    if (!(ls.get('user')===null))
+        token = JSON.stringify(ls.get('user'))
+    if  (token)
         try {
             //extracts user from token payload
-            let Userid = JSON.parse(window.atob(token.split('.')[1]))._id;
-            return Userid ? true: false;
+            var User = JSON.parse(window.atob(token.split('.')[1]));
         } catch(e) {
-            //Not an user or there is no secret to decrypt:
+            console.log('error atob: ' + User)
+            console.log(e)
+            //if unable to get user data, return false
             return false;
-        }       
-    }
-    else
-        return false;
-}
-
-export function LogInUser(token) {
-
-    //extracts user from token payload
-    var user = JSON.parse(window.atob(token.split('.')[1]));
-    ConfigureStorageAndEncryption(user._id);
-    ls.set('user', JSON.stringify(token));
-    return 1;
-}
-
-export function UpdateLogedInUserData(token) {
-    ls.set('user', JSON.stringify(token));
-    return 1;
-}
-
-export function GetLogedInUserData() {
-    var token = JSON.stringify(ls.get('user'))
-   
-    try {
-        //extracts user from token payload
-        var User = JSON.parse(window.atob(token.split('.')[1]));
-    } catch(e) {
-        console.log(e)
-    }
+        }
     return User;
 }
 
 export function GetToken()  {
-    console.log('aca en gettoek')
+    //retrieves token from localstorage
+
+    //var user = JSON.parse(window.atob(token.split('.')[1]));
+    //ConfigureStorageAndEncryption(user._id);
+
     var token = ls.get('user')
     return token;
 }
 
-export function LogOutUser()  {
+export function DeleteToken()  {
     //destroys session
     localStorage.removeItem('user');    
 }

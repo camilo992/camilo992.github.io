@@ -8,7 +8,7 @@ import * as MySession from './mysession';
 
 const Withdraw = () => {
     const [data, setData] = useState({formValidated:false})
-    var curUserLoggedInBalance = MySession.GetLogedInUserData().Balance
+    var curUserLoggedInBalance = MySession.GetUserDatafromToken().Balance
 
     const onChange = (e) => {
         //updates form data in state

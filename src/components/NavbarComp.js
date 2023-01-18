@@ -3,19 +3,19 @@ import {Link, Outlet} from "react-router-dom";
 import * as MySession from './mysession';
 
 export default function NavbarComp (props) {
+    console.log('**EN NAVBARCOMP.. ')
+    var User = props.User
 
     function LogOut()  {
-      MySession.LogOutUser()
+      MySession.DeleteToken()
       //re-renders app complete
       props.RerenderApp();
     }
 
     //builds sign in message
     var signInMessage = <div><Link to="/">Sign in</Link></div>
-    if (MySession.IsThereSession()) {
-      var dataLogedInUser = MySession.GetLogedInUserData()
-      signInMessage = <div>Signed in as: <Link to="/" onClick={LogOut}>{dataLogedInUser.Nombres}</Link></div>
-    }
+    if (User)
+      signInMessage = <div>Signed in as: <Link to="/" onClick={LogOut}>{User.Nombres}</Link></div>
 
  return (
   <Container>
