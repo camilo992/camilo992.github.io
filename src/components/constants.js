@@ -4,8 +4,8 @@ const prod = {
 };
 
 const dev = {
-     //API_URL: 'http://localhost:3000/api'
-     API_URL: 'http://192.168.100.143:3000/api'
+     API_URL: 'http://localhost:3000/api'
+     //API_URL: 'http://192.168.100.143:3000/api'
 };
 
 export const config = process.env.NODE_ENV === 'development' ? dev : prod;
