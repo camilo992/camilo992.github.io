@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.f81ab802.css",
-    "main.js": "/static/js/main.d5ddd8ee.js",
+    "main.css": "/static/css/main.1f756b66.css",
+    "main.js": "/static/js/main.e632f517.js",
     "static/media/image_slot_machine.gif": "/static/media/image_slot_machine.19d4992d0c9509e7f9f7.gif",
-    "static/media/fa-solid-900.svg": "/static/media/fa-solid-900.3fbf3c2553ba03410a4f.svg",
-    "static/media/fa-brands-400.svg": "/static/media/fa-brands-400.7b7d0ddbcc46b8bdd494.svg",
+    "static/media/fa-solid-900.svg": "/static/media/fa-solid-900.13de59f1a36b6cb4bca0.svg",
+    "static/media/fa-brands-400.svg": "/static/media/fa-brands-400.216edb96b562c79adc09.svg",
     "static/media/fa-solid-900.eot": "/static/media/fa-solid-900.efbd5d20e407bbf85f2b.eot",
     "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.07c3313b24f7b1ca85ee.ttf",
-    "static/media/fa-regular-400.svg": "/static/media/fa-regular-400.ac3d16eb330a74f2279a.svg",
+    "static/media/fa-regular-400.svg": "/static/media/fa-regular-400.19e27d348fefc21941e0.svg",
     "static/media/fa-brands-400.eot": "/static/media/fa-brands-400.89a52ae1d02b86d61439.eot",
     "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.9e138496e8f1719c6ebf.ttf",
     "static/media/image_withdrawal.jpg": "/static/media/image_withdrawal.2df47a4a643bfe641eff.jpg",
@@ -18,23 +18,25 @@
     "static/media/image_deposit.jpg": "/static/media/image_deposit.90f417ff544009399c14.jpg",
     "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.c1210e5ebe4344da5083.woff2",
     "static/media/image_satisfied_customer.jpg": "/static/media/image_satisfied_customer.4c0ff8c6efc5da1ca0f2.jpg",
-    "static/media/image_treasure_splash_screen.jpg": "/static/media/image_treasure_splash_screen.08b84374ea1c25fbaf9d.jpg",
     "static/media/image_rich_person.jpg": "/static/media/image_rich_person.0a37cec55e2284453deb.jpg",
     "static/media/image_invitefriends.jpg": "/static/media/image_invitefriends.14326e13b0640cac6250.jpg",
+    "static/media/image_login_screen.jpg": "/static/media/image_login_screen.13f949e2fbb9a4444fe3.jpg",
     "static/media/sound_slot_machine.wav": "/static/media/sound_slot_machine.c9a95320a619c109cd31.wav",
     "static/media/image_make_money.jpg": "/static/media/image_make_money.fc0eebcb0c230b3b9df1.jpg",
     "static/media/image_slot_machine_still.gif": "/static/media/image_slot_machine_still.81b13743e5c0947a62f9.gif",
     "static/media/fa-regular-400.eot": "/static/media/fa-regular-400.4079ae2d2a15d0689568.eot",
     "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.1017bce89c72f95bcf8e.ttf",
+    "static/media/image_fantasy_bank_splash_screen_couple.jpg": "/static/media/image_fantasy_bank_splash_screen_couple.365558bae2db35edfb14.jpg",
     "static/media/fa-regular-400.woff": "/static/media/fa-regular-400.3672264812746c3c7225.woff",
     "static/media/image_monk_about_us.jpg": "/static/media/image_monk_about_us.198e5c5b289869eae9fa.jpg",
+    "static/media/image_fantasy_bank_splash_screen.jpg": "/static/media/image_fantasy_bank_splash_screen.75757ce4e0025ca72e33.jpg",
     "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.68c5af1f48e2bfca1e57.woff2",
     "index.html": "/index.html",
-    "main.f81ab802.css.map": "/static/css/main.f81ab802.css.map",
-    "main.d5ddd8ee.js.map": "/static/js/main.d5ddd8ee.js.map"
+    "main.1f756b66.css.map": "/static/css/main.1f756b66.css.map",
+    "main.e632f517.js.map": "/static/js/main.e632f517.js.map"
   },
   "entrypoints": [
-    "static/css/main.f81ab802.css",
-    "static/js/main.d5ddd8ee.js"
+    "static/css/main.1f756b66.css",
+    "static/js/main.e632f517.js"
   ]
 }
