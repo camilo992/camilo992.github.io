@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as myConstants from './constants';
-import * as MySession from './mysession';
+import * as myConstants from './utils/constants';
+import * as MySession from './utils/mysession';
 
 
 
 const Withdraw = () => {
     const [data, setData] = useState({formValidated:false})
-    var curUserLoggedInBalance = MySession.GetUserDatafromToken().Balance
+    var curUserLoggedInBalance = MySession.GetUserDatafromLocalStorageToken().Balance
 
     const onChange = (e) => {
         //updates form data in state
@@ -52,10 +52,10 @@ const Withdraw = () => {
                 <h1 className="h4 text-gray-900 mb-4 text-center" id="cuerpo_forma">Make Withdrawal</h1>
             </div>
             <Form id="FormaRegistro" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
-            <p className=''>Please fill out this form to withdraw funds from your Taoke Camilo account</p>
+            <p className=''>Please fill out this form to withdraw funds from your Fantasy Bank account</p>
 
                 <div className="form-group">
-                    <Form.Control type="number" 
+                    <Form.Control className="form-control-user" type="number" 
                     id="Amount"
                     name="Amount"
                         placeholder="Type the amount to withdraw" onChange={onChange}

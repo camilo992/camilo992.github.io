@@ -1,47 +1,77 @@
 import React, {useState} from 'react'
 import {Form, Modal, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as myConstants from './constants';
-import * as MySession from './mysession';
+import * as myConstants from './utils/constants';
+import * as MySession from './utils/mysession';
+import { useDispatch, useSelector } from 'react-redux';
+import {MakeDepositThunk} from './utils/userSlice';
 
-const Deposit = (props) => {
+const Deposit = () => {
 
   console.log('**HACIENDO DEPOSIT..')  
-  var User = MySession.GetUserDatafromToken()
+  var User = useSelector(state => state.user.user)
+  const dispatch = useDispatch();
   const [data, setData] = useState({formValidated:false, showModal:false})
 
-    const onChange = (e) => {
-        //updates form data in state
-        setData({...data, [e.target.id]: e.target.value});
-   }
+  const onChange = (e) => {
+      //updates form data in state
+      setData({...data, [e.target.id]: e.target.value});
+  }
+  
+  const handleSubmit2 = (e) => {
+    var showModal = false;
+    const form = e.currentTarget;
+    //var JSONdata = Object.fromEntries(form.entries());
+    const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+    e.preventDefault();
+    e.stopPropagation();
+    alert('pipas oh Pipas oh gran señor Pipas!!')
+    //activates validation format to show errors
+    setData({...data, formValidated: true, showModal:showModal});        
+
+  }
+
+  const handleSubmit = (e) => {
+      var showModal = false;
+      const form = e.currentTarget;
+      const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+      e.preventDefault();
+      e.stopPropagation();
+
+      console.log('s viene el estallido')
+      //return
     
-    const handleSubmit = async (e) => {
-        var showModal = false;
-        const form = e.currentTarget;
-        e.preventDefault();
-        e.stopPropagation();
-      
-        if (form.checkValidity()) {
-
-            //if bank account selected is own show warning
-            var curSelected = document.forms[0].Account.value
-            if (curSelected === '1') {
-                showModal = true;
+      if (form.checkValidity()) {
+        //if bank account selected is own show warning
+        var curSelected = document.forms[0].Account.value
+        if (curSelected === '1') {
+            showModal = true;
+        }
+        else {
+            //sends deposit to API
+            try {
+              //dispatch(MakeDepositThunk(JSONdata)).unwrap()
             }
-            else {
-                //sends deposit to API
-                await writeDeposit();
+            catch (err) {
+              console.error('Failed to make deposit: ', err)
             }
-          }
-            //activates validation format to show errors
-            setData({...data, formValidated: true, showModal:showModal});        
-    }
-
-    const closeModal = async (sendForm) => {
-      //if user stated OK own account, write deposit
-      if (sendForm) {
-          await writeDeposit();
+        }
       }
+      //activates validation format to show errors
+      setData({...data, formValidated: true, showModal:showModal});        
+  }
+
+    const closeModal =  (sendForm) => {
+      //if user stated OK own account, write deposit
+      const JSONdata = JSON.stringify(Object.fromEntries(new FormData(sendForm)));
+      if (sendForm) {
+        try {
+          dispatch(MakeDepositThunk(JSONdata)).unwrap()
+        }
+        catch (err) {
+          console.error('Failed to make deposit: ', err)
+        }
+  }
       
       //upadtes state to hide modal only
       setData({...data, showModal:false});
@@ -55,7 +85,8 @@ const Deposit = (props) => {
           JSONdata._id = User._id
                     
           //adds token
-          var token =  MySession.GetToken()
+          //var token = useSelector(state => state.user.token)
+          var token = 'pipas'
           JSONdata.token = token
           const endpoint = myConstants.config.API_URL + '/adddeposit'
           const options = {
@@ -77,7 +108,7 @@ const Deposit = (props) => {
               token = data
               //updates current session user data
               MySession.StoreToken(token)
-              User = MySession.GetUserDatafromToken()
+              User = MySession.GetUserDatafromLocalStorageToken()
               strMsg = 'Your account was funded successfully!. Your new balance is $' + Intl.NumberFormat('en-US').format((Math.round(User.Balance * 100) / 100).toFixed(2))
               
 
@@ -91,7 +122,7 @@ const Deposit = (props) => {
               if (data.error === "invalid or expired token!") {
                 alert('Your session expired. Please login again')
                 MySession.DeleteToken()
-                props.RerenderApp(false,false);
+                //props.RerenderApp();
                 
               }
             }
@@ -115,13 +146,13 @@ const Deposit = (props) => {
                 <h1 className="h4 text-gray-900 mb-4 text-center" id="cuerpo_forma">Make Deposit</h1>
             </div>
             <Form id="FormDeposit" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
-            <p className=''>Please fill out this form to deposit funds on your Taoke Camilo account</p>
+            <p className=''>Please fill out this form to deposit funds on your Fantasy Bank account</p>
 
                 <div className="form-group">
-                    <Form.Control type="number" 
+                    <Form.Control className="form-control-user" type="number" 
                     id="Amount"
                     name="Amount"
-                    //defaultValue={500}
+                    defaultValue={500}
                         placeholder="Type the amount to deposit" onChange={onChange}
                         title="Please write a valid amount" 
                         max="1000"
@@ -137,7 +168,7 @@ const Deposit = (props) => {
                 required
                 >
                     <option value="">Please select an account to deposit from</option>
-                    <option value="1" >My own bank account finished in 0987</option>
+                    <option value="1"selected >My own bank account finished in 0987</option>
                     <option value="2">Another guy's bank account finished in 0765</option>
                     <option value="3">Another guy's bank account finished in 0654</option>
                 </Form.Select>

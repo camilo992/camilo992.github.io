@@ -1,14 +1,15 @@
 COMO INSTALAR TODO
 ------------------
 
-bajar todo de github (clone)
-correr npm i (para bajartodos los modulos del package.json)
-crear  .env.local en la raiz (al lado de .gitignore por ejemplo) y poner las variables de mongo.db MONGODB_URI y MONGODB_DB
-reiniciar despues desetear env variables
+- bajar todo de github (clone)
+- correr npm i (para bajartodos los modulos del package.json)
+- crear  .env.local en la raiz (al lado de .gitignore por ejemplo) y poner las variables de mongo.db MONGODB_URI y MONGODB_DB
+- reiniciar despues desetear env variables
+
+para FantasyBankAPI: hay que copiar el .env file a mano para que funcione la db de mongo, no baja del repositorio de github..
 
 
-
-para GitHub Pages
+para GitHub Pages (client hosting)
 - git init (dentro de la carpeta del proyecto)
 - git add . (echar todos los files)
 - git commit -m "first commit" (crea un commit con ls files hasta ahi)
@@ -25,3 +26,11 @@ en package.json:
 	+   "deploy": "gh-pages -b master -d build",
 npm run deploy (y sale pa pintura!! e teria)
 
+Para actualizar la API en vercel (Next hosting):
+	- el comadno vercel hace todo solito (actualiza una branch nueva arriba)
+	- tambien se puede linkear con Github (ya lo tengo asi). Si es así, simplemente se actualiza el Githhub
+	- la direccion es https://github.com/camilo992/TaokeAPI
+
+OTRAS NOTAS:
+el CSS all.min.css es para crgar los iconos de FB y Googe de Font Awesome solamente
+el CSS sb-admin-2.min.css es la personalizacion de bootstrap de SB Admin 2

@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React  from 'react';
 import NavbarComp from './components/NavbarComp';
 import {Routes,Route,BrowserRouter} from "react-router-dom";
-import {Card, Container, Row, Col} from 'react-bootstrap';
-import * as MySession from './components/mysession';
-import * as myConstants from './components/constants';
+import {Container, Row, Col} from 'react-bootstrap';
+import * as MySession from './components/utils/mysession';
+import { useDispatch, useSelector } from 'react-redux';
+import {LoginUserThunkFromToken} from './components/utils/userSlice';
 
 //components
 import About from "./components/About";
@@ -18,110 +19,62 @@ import CustomerService from './components/CustomerService';
 import InviteFriends from './components/InviteFriends';
 import SessionHandler from './components/SessionHandler';
 
-
-  function App() {
-    console.log('rendring app..')
-    const [data, setData] = useState({tokenValidated:false,tokenValid:false,appReloadCounter:0})
-    var User;
-    var token;
-    var tokenValid = false
+function App() {
+  console.log('rendring app..')
+  var token = useSelector(state => state.user.token)
+  var User = useSelector(state => state.user.user)
+  var dispatch = useDispatch()
     
-    const CheckTokenWithServer = async () => {
-      //test token with server
-      console.log('running CheckTokenWithServer..')    
-      const endpoint = myConstants.config.API_URL + '/checktoken'
-      const options = {
-          method: 'POST',
-          body: JSON.stringify(token),
-      } 
-     
-      return await fetch(endpoint, options).then(response => {
-        console.log('listo para return json')
-        return response.json();
-      })
-      .then(data =>  {
-        console.log('dentro de .then(data => ')
-        if (data === 'false') {
-          //token validated, token invalid  
-          console.log('token validated but  **INVALID**!. reloading. pipas: '+ data)
-          MySession.DeleteToken()
-          alert('your session expired. Please login again')
-          tokenValid = false;
-        } 
-        else {
-          //token validated, token valid!
-          tokenValid = true;
-          console.log('token validated and **VALID**!. reloading. pipas: '+ data)
-          //stores refreshed token
-          MySession.StoreToken(JSON.parse(data))
-        }
-        RerenderApp(true, tokenValid)
-      })
-    }
+  if (!User) {
+    console.log('no hay User, mirar si ha token..')
+    token = MySession.GetToken()
+    if (token) {
 
-    const RerenderApp = (tokenValidated, tokenValid) => {
-      //forces re-render of full app by changing state data
-      console.log('En RerenderApp..')
-      var counter = data.appReloadCounter;
-      counter++;
-      setData({tokenValidated:tokenValidated, tokenValid:tokenValid, appReloadCounter:counter});
-    }
-  
-    
-    if (!data.tokenValidated) {
-      //token not validated
-      token = MySession.GetToken()
-      if (token) {
+      try {
         //there is a token stored, validate it with server
-        console.log('si hay token, validar com server.. ')  
-        CheckTokenWithServer()
+        console.log('hay token, vamos a logearnos..')
+        dispatch(LoginUserThunkFromToken(token)).unwrap()
       }
-      else {
-        //no token stored  token, reload..
-        console.log('no hay token. reload..')
-        RerenderApp(true, false)
+      catch (err) {
+        console.error('Failed to login user from token: ', err)
       }
     }
-    else {
-      //token validated if token valid, load User
-      if (data.tokenValid) {
-        console.log('in app(): token validated and token valid. loading User..')
-        User = MySession.GetUserDatafromToken()
-      }
-    }
-    console.log('a punto derender app()..appReloadCounter: ' + data.appReloadCounter)
-    return (
-      <BrowserRouter>
-      <div className='App'>
-      <NavbarComp RerenderApp={RerenderApp} User={User}/>
-        <Container>
-          <Row className="justify-content-center">
-            <Col className="col-xl-10 col-lg-12 col-md-9">
-              <Card className='o-hidden -0 shadow-lg my-5'>
-              <Routes>
-                  <Route path="/" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<Home/>}/>}/>
-                  <Route path="/registro" element={<Register/>} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                
-                  {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
-                  <Route path="/home" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<Home/>}/>}/>
-                  <Route path="/deposit" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<Deposit RerenderApp={RerenderApp}/>}/>}/>
-                  <Route path="/withdraw" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<Withdraw/>}/>}/>
-                  <Route path="/makemoney" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<MakeMoney RerenderApp={RerenderApp}/>}/>}/>
-                  <Route path="/superbonus" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<SuperBonus/>}/>}/>
-                  <Route path="/customerservice" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<CustomerService/>}/>}/>
-                  <Route path="/invitefriends" element={<SessionHandler RerenderApp={RerenderApp} User={User} Component={<InviteFriends/>}/>}/>
-              </Routes>
-              </Card>
-            </Col>            
-          </Row>
-      </Container>
-      </div>
-      </BrowserRouter>
-  
-    );
- }
+  }
+
+  console.log('a punto derender app()..')
+
+  return (
+    <BrowserRouter>
+    <NavbarComp/>
+      <Container>
+        <Row className="justify-content-center">
+          <Col className="col-xl-10 col-lg-12 col-md-9">
+            
+            <Routes>
+                <Route path="/" element={<SessionHandler Component={<Home/>}/>}/>
+                <Route path="/registro" element={<Register/>} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+              
+                {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
+                <Route path="/home" element={<SessionHandler Component={<Home/>}/>}/>
+                <Route path="/deposit" element={<SessionHandler Component={<Deposit/>}/>}/>
+                <Route path="/withdraw" element={<SessionHandler Component={<Withdraw />}/>}/>
+                <Route path="/makemoney" element={<SessionHandler Component={<MakeMoney/>}/>}/>
+                <Route path="/superbonus" element={<SessionHandler Component={<SuperBonus/>}/>}/>
+                <Route path="/customerservice" element={<SessionHandler Component={<CustomerService/>}/>}/>
+                <Route path="/invitefriends" element={<SessionHandler Component={<InviteFriends/>}/>}/>
+            </Routes>
+          </Col>            
+        </Row>
+    </Container>
+    </BrowserRouter>
+  );
+  //}
+//  else {
+  //  return (<div>Pipaassssss</div>)
+  //}
+}
 export default App;
 
 

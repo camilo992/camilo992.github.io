@@ -1,8 +1,8 @@
 import ls from 'localstorage-slim';
-import encUTF8 from 'crypto-js/enc-utf8';
-import AES from 'crypto-js/aes';
+//import encUTF8 from 'crypto-js/enc-utf8';
+//import AES from 'crypto-js/aes';
 
-function ConfigureStorageAndEncryption(secret) {
+/*function ConfigureStorageAndEncryption(secret) {
     // update localstorage-slim
     ls.config.encrypt = true;             // global encryption
     ls.config.secret = secret
@@ -19,7 +19,7 @@ function ConfigureStorageAndEncryption(secret) {
             return -1;
         }
         };
-}
+}*/
 
 export function StoreToken(token) {
     //saves token ecncrypted on localstorage
@@ -30,7 +30,7 @@ export function StoreToken(token) {
     return;
 }
 
-export function GetUserDatafromToken() {
+export function GetUserDatafromLocalStorageToken() {
     //gets user object from currentlñy stored token in localstorage
     var token = null
 

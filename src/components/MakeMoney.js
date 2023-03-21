@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as myConstants from './constants';
-import * as MySession from './mysession';
+import * as myConstants from './utils/constants';
+import * as MySession from './utils/mysession';
 
 //graphic and audio assets
 import AnimationMakeMoneyStill from '../images/image_slot_machine_still.gif';  
@@ -13,7 +13,7 @@ import SlotMachineSoundFinal from '../audio/sound_slot_machine_success.mp3';
 
 const MakeMoney = (props) => {  
     console.log('**HACIENDO MAKE MONEY..')   
-    var User = MySession.GetUserDatafromToken()
+    var User = MySession.GetUserDatafromLocalStorageToken()
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(User.Balance * 100) / 100).toFixed(2) + User.PromotionBonus + User.AcumProfits)
     console.log('rendering..  TOTALASSETS es:' +TotalAssets )
     var interestRate = Math.floor(User.Balance/1000)  //interest rate is 1% per each 1000 usd
@@ -134,7 +134,7 @@ const MakeMoney = (props) => {
                 <h1 className="h5 mb-4"><Link to="/">Home</Link> / Make Money!</h1>
                 <h1 className="h4 text-gray-900 text-center" id="cuerpo_forma">Make Money!</h1>
 
-                Why wait years to build your wealth?  Now you don't need to! With Taoke Camilo, all you have to do to earn interest is click the button below! Do it as many times as you like!
+                Why wait years to build your wealth?  Now you don't need to! With Fantasy Bank, all you have to do to earn interest is click the button below! Do it as many times as you like!
 
                 <div className="font-weight-bold text-success">Current balance: ${TotalAssets}</div>
                 <div className="font-weight-bold text-danger">Current interest rate: {interestRate}%</div>

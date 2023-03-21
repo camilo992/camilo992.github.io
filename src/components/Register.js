@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Form} from 'react-bootstrap';
-import * as myConstants from './constants';
+import * as myConstants from './utils/constants';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
@@ -9,7 +9,7 @@ const Register = () => {
 
     const NotwWorking = () => {
         //alerts that this is not working yet
-        alert('We\'re working on this but right now it is not available')
+        alert('We wish this wil actually work one day but right now you can\'t use this option.')
     }
 
 

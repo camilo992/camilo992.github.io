@@ -19,7 +19,7 @@ const SuperBonus = () => {
                     </Row>
                     <Row className=''>
                         <Col className='text-center'>
-                            <p>Only Taoke Camilo can help you build your wealth the way you deserve it: fast!!</p> Just deposit more money in your account and anytime you use the Make Money functionality on our site you will earn more interest!
+                            <p>Only Fantasy Bank can help you build your wealth the way you deserve it: fast!!</p> Just deposit more money in your account and anytime you use the Make Money functionality on our site you will earn more interest!
                         </Col>
                     </Row>
                 

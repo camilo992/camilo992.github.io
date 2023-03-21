@@ -1,7 +1,7 @@
 import {React, useRef, useState} from 'react'
 import { Row, Col, Image, Overlay, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as MySession from './mysession';
+import { useSelector } from 'react-redux';
 
 //loads images
 import iconDeposit from '../images/icon_deposit.jpg';
@@ -11,10 +11,11 @@ import iconSuperbonus from '../images/icon_superbonus.jpg';
 import iconCustomerService from '../images/icon_customerservice.jpg';
 import iconMakemoney from '../images/icon_makemoney.jpg';
 
-const Home = (props) => {
+const Home = () => {
 
     console.log('**HACIENDO HOME')
-    var User = MySession.GetUserDatafromToken()
+    var User = useSelector(state => state.user.user)
+
     var TotalAssets = Intl.NumberFormat('en-US').format((Math.round(User.Balance * 100) / 100).toFixed(2) + User.PromotionBonus + User.AcumProfits)
 
     //sets target for Tooltip

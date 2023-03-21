@@ -1,18 +1,22 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
-import * as MySession from './mysession';
-import * as myConstants from './constants';
+import { useDispatch, useSelector } from 'react-redux';
+import {LoginUserThunk} from './utils/userSlice';
 
 //assets
-import imageTreasure from '../images/image_treasure_splash_screen.jpg';
+import imageFantasyBank from '../images/image_fantasy_bank_splash_screen.jpg';
+import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_couple.jpg';
 
 
 
-const Login = (props) => {
-  const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
-
+const Login = () => {
   console.log('**RENDER LOGIN..')
+
+  const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
+  const dispatch = useDispatch();
+  const loginStatus = useSelector(state => state.user.status)
+  const loginStatusError = useSelector(state => state.user.error)
 
   const closeModal = () => {
       //updates state to hide modal
@@ -21,7 +25,7 @@ const Login = (props) => {
 
   const NotwWorking = () => {
       //alerts that this is not working yet
-      alert('We\'re working on this but right now it is not available')
+      alert('We wish this wil actually work one day but right now you can\'t use this option.')
   }
 
   const onChange = (e) => {
@@ -29,58 +33,52 @@ const Login = (props) => {
       setData({...data, [e.target.id]: e.target.value});
   }
 
-  const handleSubmit = async (e) => {
-      const form = e.currentTarget;
-      e.preventDefault();
-      e.stopPropagation();
+  const handleSubmit = (e) => {
+    const form = e.currentTarget;
+    e.preventDefault();
+    e.stopPropagation();
 
-      //activates validation format to show errors
-      console.log('handle sbmit!')
-      setData({...data, formValidated: true});
-      console.log('after setdata para mostrar errors in form..')
+    //activates validation format to show errors
+    console.log('handle sbmit!')
+    setData({...data, formValidated: true});
       
-      if (!form.checkValidity()) 
-        return;
+    if (!form.checkValidity()) 
+      return;
 
-      //sends form to api
-      const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
-      const endpoint = myConstants.config.API_URL + '/loginuser'
-      const options = {
-        method: 'POST',
-        body: JSONdata,
-      }
-      fetch(endpoint, options)  
-      .then(function(response) {
-          if(response.status === 200)
-            return response.json();
-        throw new Error('Server is down or not responding ' + response.status);
-      })  
-      .then(function(data) {
-        //verifies operation result
-        var strMsg
-        data = JSON.parse(data)
-        if (!data.error){
-          //creates user session and reloads
-          console.log('en LOGIN, login OK, llamando a MySession.LogInUser(token)')
-          MySession.StoreToken(data)
-          //re-renders app complete
-          props.RerenderApp(true, true); 
-        }
+    //sends form to api
+    const JSONdata = JSON.stringify(Object.fromEntries(new FormData(e.target)));
+    try {
+      dispatch(LoginUserThunk(JSONdata)).unwrap()
+    }
+    catch (err) {
+      console.error('Failed to login user: ', err)
+    }
+  }
 
-        else {
-          //if user not found
-          strMsg = data.error
-          if (data.error === 'user not found!') {
-            strMsg = 'Mmm.. that didn\'t go well. Please try again..'
-          }
-        }
-        document.getElementById('cuerpo_forma').innerText = strMsg
-      })          
-      .catch(function(error) {
-        //just show error to user
-        document.getElementById('cuerpo_forma').innerText = error
-       });
-      }
+  var strUserMessage = 'Welcome back!'
+  switch (loginStatus) {
+    case 'loading': {
+      strUserMessage = 'Please wait. I\'m working on this'
+      break;
+    }
+    case 'failed': {
+
+      if (loginStatusError === 'invalid or expired token!')
+        //failed becaue it was trying to login from token and the token is expired or invalid.
+        strUserMessage = 'Your previous session expired. Please log in again'
+      else
+        //failed becaue it was trying to login with a wrong user/password combination
+        strUserMessage = loginStatusError
+      break;
+    }
+    default: {
+      break;
+    }
+
+  }
+  console.log('strUserMessage:' + strUserMessage)
+  
+  console.log('a punto de hacer el return sobre Login..')
     return (
               <div className="row justify-content-center">
                 <ModalSplash show={data.showModalFirstTime} handleClose={closeModal}/>
@@ -88,7 +86,7 @@ const Login = (props) => {
                   <div className="col-lg-7">
                       <div className="p-5">
                           <div className="text-center" border="1">
-                              <h1 className="h4 text-gray-900 mb-4" id="cuerpo_forma">Welcome Back!</h1>
+                              <h1 className="h4 text-gray-900 mb-4" id="cuerpo_forma">{strUserMessage}</h1>
                           </div>
                           <Form id="FormaRegistro" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
                               <div className="form-group">
@@ -141,20 +139,20 @@ const Login = (props) => {
 function ModalSplash(props) {
     
     return (
-      <> 
         <Modal show={props.show} onHide={props.handleClose} animation={true} fullscreen={true} size='md' onClick={props.handleClose}>
           <Modal.Body>
             <Container className='text-center '>
               <Col className='align-items-center'>
-                <Row className=''><div className='h2 text-center text-primary'>Welcome to Taoke Camilo!!</div></Row>
+                <Row className=''><div className='h2 text-center text-primary'>Welcome to Fantasy Bank!!</div></Row>
                 <Row className=''>
-                  <Col className=''><Image src={imageTreasure} width="50%" height="50%" fluid/></Col></Row>
-                <Row className=''>
-                    <div className='h4 text-center'>"It's like Taoke Order, but better!!"</div>
+                  <Col className=''><Image src={imageFantasyBank} width="50%" height="50%" fluid/></Col>
                 </Row>
                 <Row className=''>
-                <div className='h5 text-center'>Make money and never get lucky orders!!</div>
+                    <div className='h4 text-center'>Earn unlimited interest using our app!!</div>
                 </Row>
+                <Row className=''>
+                  <Col className=''><Image src={imageFantasyBankCouple} width="50%" height="50%" fluid/></Col>
+                </Row>               
                 <Row className=''>
                 <div className='h1 text-center text-danger'>Join Today!</div>
                 </Row>
@@ -162,10 +160,7 @@ function ModalSplash(props) {
               </Col>
             </Container>
           </Modal.Body>
-          <Modal.Footer>
-          </Modal.Footer>
         </Modal>
-      </>
     );
   }
   
