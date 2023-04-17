@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import { GoogleLogin } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode'
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {LoginUserThunk} from './utils/userSlice';
-import * as gapi from 'gapi-client';
 
 //assets
 import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_couple.jpg';
@@ -26,9 +26,6 @@ const Login = () => {
   const LoginWithGoogle = () => {
       // Load the Google Sign-In API
       console.log('***LOGIN WIUTH GOOGLE!!')
-      gapi.load('auth2', function() {
-        console.log('***DENTRO DE WIUTH GOOGLE!!')
-      });
       console.log('***AFTER LOGIN WIUTH GOOGLE!!')
   }
 
@@ -119,17 +116,18 @@ const Login = () => {
                                   Login
                               </button>
                               <hr/>
-                              <GoogleLogin className="google-login-button"
+                              <GoogleLogin
             onSuccess={credentialResponse => {
               console.log(credentialResponse);
+              const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
+              console.log(USER_CREDENTIAL);
             }}
           
             onError={() => {
               console.log('Login Failed');
             }}
           
-          />
-                              <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
+          />                            <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
                                   <i className="fab fa-facebook-f fa-fw"></i> Login with Facebook
                               </div>
                           </Form>
