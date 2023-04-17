@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
+import { GoogleLogin } from '@react-oauth/google';
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {LoginUserThunk} from './utils/userSlice';
+import * as gapi from 'gapi-client';
 
 //assets
-import imageFantasyBank from '../images/image_fantasy_bank_splash_screen.jpg';
 import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_couple.jpg';
 
 
@@ -13,7 +14,7 @@ import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_c
 const Login = () => {
   console.log('**RENDER LOGIN..')
 
-  const [data, setData] = useState({formValidated:false, showModalFirstTime:true})
+  const [data, setData] = useState({formValidated:false, showModalFirstTime:false})
   const dispatch = useDispatch();
   const loginStatus = useSelector(state => state.user.status)
   const loginStatusError = useSelector(state => state.user.error)
@@ -22,17 +23,19 @@ const Login = () => {
       //updates state to hide modal
       setData({...data, showModalFirstTime:false});
   }
-
-  const NotwWorking = () => {
-      //alerts that this is not working yet
-      alert('We wish this wil actually work one day but right now you can\'t use this option.')
+  const LoginWithGoogle = () => {
+      // Load the Google Sign-In API
+      console.log('***LOGIN WIUTH GOOGLE!!')
+      gapi.load('auth2', function() {
+        console.log('***DENTRO DE WIUTH GOOGLE!!')
+      });
+      console.log('***AFTER LOGIN WIUTH GOOGLE!!')
   }
 
   const onChange = (e) => {
       //updates form data in state
       setData({...data, [e.target.id]: e.target.value});
   }
-
   const handleSubmit = (e) => {
     const form = e.currentTarget;
     e.preventDefault();
@@ -55,7 +58,7 @@ const Login = () => {
     }
   }
 
-  var strUserMessage = 'Welcome back!'
+  var strUserMessage = 'Welcome back! Please Login:'
   switch (loginStatus) {
     case 'loading': {
       strUserMessage = 'Please wait. I\'m working on this'
@@ -94,7 +97,7 @@ const Login = () => {
                                     id="Email"
                                     name="Email"
                                     defaultValue="pipas1@cusquie.com"
-                                      placeholder="Email Address" onChange={onChange}
+                                      placeholder="email address" onChange={onChange}
                                       title="Please write a valid email address" 
                                       required
                                   />
@@ -105,7 +108,7 @@ const Login = () => {
                                 id="Password" 
                                 name="Password" 
                                 defaultValue="1acamilo"
-                                placeholder="Password" onChange={onChange}
+                                placeholder="password" onChange={onChange}
                                 title="Password must be at least 8 characters including one number and one letter" 
                                 pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
                                 required
@@ -116,16 +119,23 @@ const Login = () => {
                                   Login
                               </button>
                               <hr/>
-                              <div  onClick={NotwWorking} className="btn btn-google btn-user btn-block">
-                                  <i className="fab fa-google fa-fw"></i>Login with Google
-                              </div>
-                              <div  onClick={NotwWorking} className="btn btn-facebook btn-user btn-block">
+                              <GoogleLogin className="google-login-button"
+            onSuccess={credentialResponse => {
+              console.log(credentialResponse);
+            }}
+          
+            onError={() => {
+              console.log('Login Failed');
+            }}
+          
+          />
+                              <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
                                   <i className="fab fa-facebook-f fa-fw"></i> Login with Facebook
                               </div>
                           </Form>
                           <hr/>
                           <div className="text-center">
-                            <Link className="small" to="#" onClick={NotwWorking}>Forgot Password?</Link>
+                            <Link className="small" to="#" onClick={LoginWithGoogle}>Forgot Password?</Link>
                           </div>
                           <div className="text-center">
                               <Link className="small" to="/registro">Create an Account!</Link>
@@ -144,9 +154,6 @@ function ModalSplash(props) {
             <Container className='text-center '>
               <Col className='align-items-center'>
                 <Row className=''><div className='h2 text-center text-primary'>Welcome to Fantasy Bank!!</div></Row>
-                <Row className=''>
-                  <Col className=''><Image src={imageFantasyBank} width="50%" height="50%" fluid/></Col>
-                </Row>
                 <Row className=''>
                     <div className='h4 text-center'>Earn unlimited interest using our app!!</div>
                 </Row>

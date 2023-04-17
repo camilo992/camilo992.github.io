@@ -1,9 +1,9 @@
-import {Navbar,Nav} from 'react-bootstrap';
+import {Navbar,Nav, Image} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import * as MySession from './utils/mysession';
 import {useDispatch, useSelector} from 'react-redux';
 import {LogoutUser} from './utils/userSlice';
-//import LogoFantasyBank from '../images/image_fantasy_bank_logo.jpg';
+import LogoFantasyBank from '../images/image_fantasy_bank_logo.jpg';
 
 export default function NavbarComp () {
   console.log('**EN NAVBARCOMP.. ')
@@ -26,7 +26,7 @@ export default function NavbarComp () {
   <Navbar bg="primary" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Brand className="text-white" href="/">
-    Fantasy Bank!
+    <Image src={LogoFantasyBank} width="145" height="43"/>
       </Navbar.Brand>
     
     <Navbar.Collapse id="basic-navbar-nav">
