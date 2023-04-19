@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {LoginUserThunk} from './utils/userSlice';
+import {LoginUserThunkFromTokenGoogle} from './utils/userSlice';
+
 
 //assets
 import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_couple.jpg';
@@ -23,16 +25,32 @@ const Login = () => {
       //updates state to hide modal
       setData({...data, showModalFirstTime:false});
   }
-  const LoginWithGoogle = () => {
-      // Load the Google Sign-In API
-      console.log('***LOGIN WIUTH GOOGLE!!')
-      console.log('***AFTER LOGIN WIUTH GOOGLE!!')
-  }
+  const LoginWithGoogle = (credentialResponse) => {
+    // Load the Google Sign-In API
+    console.log('***LOGIN WIUTH GOOGLE ERROR!!')
+    console.log(credentialResponse);
+    const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
+    console.log(USER_CREDENTIAL);    
+    //sends form to api
+    try {
+      dispatch(LoginUserThunkFromTokenGoogle(credentialResponse)).unwrap()
+    }
+    catch (err) {
+      console.error('Failed to login user: ', err)
+    }    
+  }      
 
+  const LoginWithGoogleError = (credentialResponse) => {
+      // Load the Google Sign-In API
+      console.log('***LOGIN WIUTH GOOGLE!! ERROR')
+      console.log(credentialResponse);
+  }      
+  
   const onChange = (e) => {
       //updates form data in state
       setData({...data, [e.target.id]: e.target.value});
   }
+
   const handleSubmit = (e) => {
     const form = e.currentTarget;
     e.preventDefault();
@@ -79,7 +97,7 @@ const Login = () => {
   console.log('strUserMessage:' + strUserMessage)
   
   console.log('a punto de hacer el return sobre Login..')
-    return (
+  return (
               <div className="row justify-content-center">
                 <ModalSplash show={data.showModalFirstTime} handleClose={closeModal}/>
                   <div className="col-lg-5 d-none d-lg-block bg-login-image"></div>
@@ -116,18 +134,8 @@ const Login = () => {
                                   Login
                               </button>
                               <hr/>
-                              <GoogleLogin
-            onSuccess={credentialResponse => {
-              console.log(credentialResponse);
-              const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
-              console.log(USER_CREDENTIAL);
-            }}
-          
-            onError={() => {
-              console.log('Login Failed');
-            }}
-          
-          />                            <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
+                              <GoogleLogin onSuccess={LoginWithGoogle} onError={LoginWithGoogleError}/>
+                              <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
                                   <i className="fab fa-facebook-f fa-fw"></i> Login with Facebook
                               </div>
                           </Form>

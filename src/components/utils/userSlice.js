@@ -1,13 +1,53 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-//import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import * as myConstants from './constants';
 import * as MySession from './mysession';
+
 const initialState = {
     user: false,
     status: 'idle',
     error: null
   }
-  export const LoginUserThunkFromToken = createAsyncThunk(
+  export const LoginUserThunkFromTokenGoogle = createAsyncThunk(
+    'user/LoginUserThunkFromTokenGoogle',
+     async (token) => {
+
+       //sends form to api
+       var dataReturn
+       const endpoint = myConstants.config.API_URL + '/checktokengoogle'
+       const options = {
+         method: 'POST',
+         body: JSON.stringify(token),
+       }
+       await fetch(endpoint, options)  
+       .then(function(response) {
+           if(response.status === 200)
+             return response.json();
+         throw new Error('Server is down or not responding ' + response.status);
+       })  
+       .then(data => {
+        data = JSON.parse(data)
+        if (!data.error){
+          //stores token
+          console.log('token validated and **VALID**!. logging user using LoginUser..')
+          MySession.StoreToken(data)
+        }
+        else {
+          //token validated, token invalid  
+          console.log('token validated but  **INVALID**!. deleting token')
+          MySession.DeleteToken()
+        } 
+         //dataReturn will be the payload that will update the state on the extraReducers code snippet
+         dataReturn = data
+       })          
+       .catch(error => {
+         //just show error to user
+         dataReturn = {error: 'Server response is unexpected'}
+        });
+        return dataReturn
+     }
+   )
+   
+   export const LoginUserThunkFromToken = createAsyncThunk(
     'user/LoginUserThunkFromToken',
      async (token) => {
        //sends form to api
@@ -133,6 +173,7 @@ const initialState = {
     },
         extraReducers(builder) {
       builder
+      //LOGIN USER THUNK
       .addCase(LoginUserThunk.pending, (state) => {
         state.status = 'loading'
         state.error = ''
@@ -157,6 +198,7 @@ const initialState = {
             state.user = JSON.parse(window.atob(action.payload.split('.')[1]))
           }
         })
+        //LOGIN USER FROM TOKEN
       .addCase(LoginUserThunkFromToken.pending, (state) => {
         state.status = 'loading'
         state.error = ''
@@ -180,7 +222,33 @@ const initialState = {
 
             state.user = JSON.parse(window.atob(action.payload.split('.')[1]))
           }
-        })
+      })
+      //LOGIN USER FEOM GOOGLE
+      .addCase(LoginUserThunkFromTokenGoogle.pending, (state) => {
+        state.status = 'loading'
+        state.error = ''
+      })
+      .addCase(LoginUserThunkFromTokenGoogle.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+      .addCase(LoginUserThunkFromTokenGoogle.fulfilled, (state, action) => {
+          console.log('action.payload:' + action.payload)
+          console.log('action.payload.error:' + action.payload.error)
+          if (action.payload.error) {
+            state.status = 'failed'
+            state.token = null
+            state.user = false
+            state.error = action.payload.error
+          }
+          else {
+            state.status = 'succeeded'
+            state.token = action.payload
+
+            state.user = JSON.parse(window.atob(action.payload.split('.')[1]))
+          }
+        })        
+        //MAKE DEPOSIT
       .addCase(MakeDepositThunk.pending, (state) => {
         state.status = 'loading'
         state.error = ''
