@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import jwtDecode from 'jwt-decode'
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {LoginUserThunk} from './utils/userSlice';
 import {LoginUserThunkFromTokenGoogle} from './utils/userSlice';
-
 
 //assets
 import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_couple.jpg';
@@ -15,6 +14,10 @@ import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_c
 
 const Login = () => {
   console.log('**RENDER LOGIN..')
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+    flow: 'auth-code',
+  });
 
   const [data, setData] = useState({formValidated:false, showModalFirstTime:false})
   const dispatch = useDispatch();
@@ -73,7 +76,7 @@ const Login = () => {
     }
   }
 
-  var strUserMessage = 'Welcome back! Please Login:'
+  var strUserMessage = 'Welcome back! Please login:'
   switch (loginStatus) {
     case 'loading': {
       strUserMessage = 'Please wait. I\'m working on this'
@@ -99,11 +102,12 @@ const Login = () => {
   console.log('a punto de hacer el return sobre Login..')
   return (
               <div className="row justify-content-center">
+                
                 <ModalSplash show={data.showModalFirstTime} handleClose={closeModal}/>
                   <div className="col-lg-5 d-none d-lg-block bg-login-image"></div>
                   <div className="col-lg-7">
                       <div className="p-5">
-                          <div className="text-center" border="1">
+                          <div className="text-center">
                               <h1 className="h4 text-gray-900 mb-4" id="cuerpo_forma">{strUserMessage}</h1>
                           </div>
                           <Form id="FormaRegistro" noValidate validated={data.formValidated} className="user" onSubmit={handleSubmit} method="POST">
@@ -130,13 +134,12 @@ const Login = () => {
                                 />
                             <Form.Control.Feedback type="invalid">Password must be at least 8 characters including one number and one letter</Form.Control.Feedback>
                               </div>
-                              <button className="btn btn-primary btn-user btn-block">
-                                  Login
-                              </button>
+                              <div className="d-flex justify-content-center">
+                                <button className="btn btn-primary btn-user btn-block " style={{"maxWidth": "266px"}}>Login</button>
+                              </div>
                               <hr/>
-                              <GoogleLogin onSuccess={LoginWithGoogle} onError={LoginWithGoogleError}/>
-                              <div  onClick={LoginWithGoogle} className="btn btn-facebook btn-user btn-block">
-                                  <i className="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                              <div className='d-flex justify-content-center'>
+                                <GoogleLogin className="btn" onSuccess={LoginWithGoogle} onError ={LoginWithGoogleError} type="standard" theme="filled_blue" shape="circle" />
                               </div>
                           </Form>
                           <hr/>

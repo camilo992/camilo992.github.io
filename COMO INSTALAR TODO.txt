@@ -34,3 +34,7 @@ Para actualizar la API en vercel (Next hosting):
 OTRAS NOTAS:
 el CSS all.min.css es para crgar los iconos de FB y Googe de Font Awesome solamente
 el CSS sb-admin-2.min.css es la personalizacion de bootstrap de SB Admin 2
+
+Para actualizar el repositorio local vs el remoto, usar esto:
+ git fetch --all
+ git reset --hard origin/main

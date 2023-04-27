@@ -4,10 +4,11 @@ const prod = {
 };
 
 const dev = {
-     //API_URL: 'http://localhost:3000/api'
-     API_URL: 'http://192.168.100.143:3000/api'
+     API_URL: 'http://localhost:3000/api'
+     //API_URL: 'http://192.168.100.143:3000/api'
 };
 
+export const GOOGLE_CLIENT_ID = "1038408980220-a7dfih0lmem773bfgj008pegag4tiopo.apps.googleusercontent.com" 
 export const config = process.env.NODE_ENV === 'development' ? dev : prod;
 
 export const WITHDRAWAL_ERROR_MESSAGES = [
