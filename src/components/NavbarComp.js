@@ -25,10 +25,9 @@ export default function NavbarComp () {
  return (
   <Navbar bg="primary" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Brand className="text-white" href="/">
-    <Image src={LogoFantasyBank} width="145" height="43"/>
+      <Navbar.Brand className="text-white" href="/">
+        <Image src={LogoFantasyBank} width="145" height="50"/>
       </Navbar.Brand>
-    
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
         <Nav.Link className="text-white" to="/" as={Link}>Home</Nav.Link>
