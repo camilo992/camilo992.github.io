@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin} from '@react-oauth/google';
 import jwtDecode from 'jwt-decode'
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
@@ -14,10 +14,6 @@ import imageFantasyBankCouple from '../images/image_fantasy_bank_splash_screen_c
 
 const Login = () => {
   console.log('**RENDER LOGIN..')
-  const login = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
-    flow: 'auth-code',
-  });
 
   const [data, setData] = useState({formValidated:false, showModalFirstTime:false})
   const dispatch = useDispatch();
@@ -30,7 +26,7 @@ const Login = () => {
   }
   const LoginWithGoogle = (credentialResponse) => {
     // Load the Google Sign-In API
-    console.log('***LOGIN WIUTH GOOGLE ERROR!!')
+    console.log('***LOGIN WIUTH GOOGLE')
     console.log(credentialResponse);
     const USER_CREDENTIAL = jwtDecode(credentialResponse.credential);
     console.log(USER_CREDENTIAL);    
@@ -97,9 +93,6 @@ const Login = () => {
     }
 
   }
-  console.log('strUserMessage:' + strUserMessage)
-  
-  console.log('a punto de hacer el return sobre Login..')
   return (
               <div className="row justify-content-center">
                 

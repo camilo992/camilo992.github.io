@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reactionAdded from './userSlice'
+import userSliceReducer from './userSlice'
 
 export default configureStore({
   reducer: {
-    user: reactionAdded
-  }
+    user: userSliceReducer
+    }
 });
 

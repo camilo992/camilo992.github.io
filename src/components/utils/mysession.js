@@ -30,25 +30,6 @@ export function StoreToken(token) {
     return;
 }
 
-export function GetUserDatafromLocalStorageToken() {
-    //gets user object from currentlñy stored token in localstorage
-    var token = null
-
-    if (!(ls.get('user')===null))
-        token = JSON.stringify(ls.get('user'))
-    if  (token)
-        try {
-            //extracts user from token payload
-            var User = JSON.parse(window.atob(token.split('.')[1]));
-        } catch(e) {
-            console.log('error atob: ' + User)
-            console.log(e)
-            //if unable to get user data, return false
-            return false;
-        }
-    return User;
-}
-
 export function GetToken()  {
     //retrieves token from localstorage
 

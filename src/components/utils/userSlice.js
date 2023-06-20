@@ -22,7 +22,7 @@ const initialState = {
        .then(function(response) {
            if(response.status === 200)
              return response.json();
-         throw new Error('Server is down or not responding ' + response.status);
+             throw new Error('Server is not working OK ' + response.status);
        })  
        .then(data => {
         data = JSON.parse(data)
@@ -41,7 +41,7 @@ const initialState = {
        })          
        .catch(error => {
          //just show error to user
-         dataReturn = {error: 'Server response is unexpected'}
+         dataReturn = {error: 'Server is down:' + error}
         });
         return dataReturn
      }
@@ -61,18 +61,16 @@ const initialState = {
        .then(function(response) {
            if(response.status === 200)
              return response.json();
-         throw new Error('Server is down or not responding ' + response.status);
+             throw new Error('Server is not working OK ' + response.status);
        })  
        .then(data => {
         data = JSON.parse(data)
         if (!data.error){
           //stores token
-          console.log('token validated and **VALID**!. logging user using LoginUser..')
           MySession.StoreToken(data)
         }
         else {
           //token validated, token invalid  
-          console.log('token validated but  **INVALID**!. deleting token')
           MySession.DeleteToken()
         } 
          //dataReturn will be the payload that will update the state on the extraReducers code snippet
@@ -80,7 +78,7 @@ const initialState = {
        })          
        .catch(error => {
          //just show error to user
-         dataReturn = {error: 'Server response is unexpected'}
+         dataReturn = {error: 'Server is down:' + error}
         });
         return dataReturn
      }
@@ -100,7 +98,7 @@ const initialState = {
       .then(response => {
           if(response.status === 200)
             return response.json();
-        throw new Error('Server is down or not responding ' + response.status);
+            throw new Error('Server is not working OK ' + response.status);
       })  
       .then(data => {
         //verifies operation result
@@ -115,7 +113,7 @@ const initialState = {
       })          
       .catch(error=> {
         //just show error to user
-        dataReturn = {error: 'Server response is unexpected'}
+        dataReturn = {error: 'Server is down:' + error}
        });
        return dataReturn
     }
@@ -135,11 +133,13 @@ const initialState = {
        .then(response => {
            if(response.status === 200)
              return response.json();
-         throw new Error('Server is down or not responding ' + response.status);
+             throw new Error('Server is not working OK ' + response.status);
        })  
        .then(data => {
          //verifies operation result
          data = JSON.parse(data)
+         console.log('data from deposit server')
+         console.log(data)
          if (!data.error){
           //updates current token in storage
           console.log('deposit OK, storing token')
@@ -155,7 +155,7 @@ const initialState = {
        })          
        .catch(error=> {
          //just show error to user
-         dataReturn = {error: 'Server response is unexpected'}
+         dataReturn = {error: 'Server is down:' + error}
         });
         return dataReturn
      }
@@ -183,8 +183,6 @@ const initialState = {
         state.error = action.error.message
       })
       .addCase(LoginUserThunk.fulfilled, (state, action) => {
-          console.log('action.payload:' + action.payload)
-          console.log('action.payload.error:' + action.payload.error)
           
           if (action.payload.error) {
             state.status = 'failed'
@@ -208,8 +206,6 @@ const initialState = {
         state.error = action.error.message
       })
       .addCase(LoginUserThunkFromToken.fulfilled, (state, action) => {
-          console.log('action.payload:' + action.payload)
-          console.log('action.payload.error:' + action.payload.error)
           if (action.payload.error) {
             state.status = 'failed'
             state.token = null
@@ -258,13 +254,17 @@ const initialState = {
         state.error = action.error.message
       })
       .addCase(MakeDepositThunk.fulfilled, (state, action) => {
+          console.log('***SUCCEEDED!!!')
           console.log('action.payload:' + action.payload)
           console.log('action.payload.error:' + action.payload.error)
           if (action.payload.error) {
             state.status = 'failed'
-            state.token = null
-            state.user = false
             state.error = action.payload.error
+            //if token invalid or expired, delete token and user to force new login
+            if (action.payload.error==='invalid or expired token!') {
+              state.token = null
+              state.user = false
+            }
           }
           else {
             state.status = 'succeeded'

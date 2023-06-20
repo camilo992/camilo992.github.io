@@ -57,7 +57,7 @@ const Register = () => {
             .then(function(response) {
                 if(response.status === 200)
                   return response.json();
-              throw new Error('Server is down or not responding ' + response.status);
+                  throw new Error('Server is not working OK ' + response.status);
             })
             .then(function(data) {
                 //verifies operation result

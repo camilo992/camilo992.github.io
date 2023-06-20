@@ -21,15 +21,15 @@ import SessionHandler from './components/SessionHandler';
 
 function App() {
   console.log('rendring app..')
-  var token = useSelector(state => state.user.token)
-  var User = useSelector(state => state.user.user)
+  var token = useSelector(state => state.token)
+  var User = useSelector(state => state.user)
   var dispatch = useDispatch()
     
-  if (!User) {
+  if (!User.user && User.status !== 'loading') {
     console.log('no hay User, mirar si ha token..')
     token = MySession.GetToken()
+  
     if (token) {
-
       try {
         //there is a token stored, validate it with server
         console.log('hay token, vamos a logearnos..')
@@ -41,7 +41,7 @@ function App() {
     }
   }
 
-  console.log('a punto derender app()..')
+  console.log('a punto return app()..')
 
   return (
     <BrowserRouter>
