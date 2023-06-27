@@ -269,7 +269,6 @@ const initialState = {
           else {
             state.status = 'succeeded'
             state.token = action.payload
-
             state.user = JSON.parse(window.atob(action.payload.split('.')[1]))
           }
         })

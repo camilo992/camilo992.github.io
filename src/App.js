@@ -18,6 +18,7 @@ import SuperBonus from './components/SuperBonus';
 import CustomerService from './components/CustomerService';
 import InviteFriends from './components/InviteFriends';
 import SessionHandler from './components/SessionHandler';
+import Test from './components/test';
 
 function App() {
   console.log('rendring app..')
@@ -57,6 +58,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
               
                 {/*ROUTES PROTECTED WITH SESSION MANAGEMENT*/}
+                <Route path="/test" element={<SessionHandler Component={<Test/>}/>}/>
                 <Route path="/home" element={<SessionHandler Component={<Home/>}/>}/>
                 <Route path="/deposit" element={<SessionHandler Component={<Deposit/>}/>}/>
                 <Route path="/withdraw" element={<SessionHandler Component={<Withdraw />}/>}/>

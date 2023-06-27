@@ -30,6 +30,7 @@ export function StoreToken(token) {
     return;
 }
 
+
 export function GetToken()  {
     //retrieves token from localstorage
 
