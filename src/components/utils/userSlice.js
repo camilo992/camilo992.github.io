@@ -200,10 +200,13 @@ const initialState = {
       .addCase(LoginUserThunkFromToken.pending, (state) => {
         state.status = 'loading'
         state.error = ''
+        console.log('***login user from token!!!!')
+
       })
       .addCase(LoginUserThunkFromToken.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
+        console.log('*****login user from token FAILED!!!****')
       })
       .addCase(LoginUserThunkFromToken.fulfilled, (state, action) => {
           if (action.payload.error) {

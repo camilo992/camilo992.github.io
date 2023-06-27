@@ -23,6 +23,7 @@ const CustomerService = () => {
 	  event.preventDefault();
 
     if (userChat !== '') {
+      setUserChat('')
       dispatch(InsertUserChatMessage(userChat))
       dispatch(InsertChatBotMessageThunk(userChat))
     }

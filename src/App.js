@@ -21,7 +21,7 @@ import SessionHandler from './components/SessionHandler';
 import Test from './components/test';
 
 function App() {
-  console.log('rendring app..')
+  console.log('RENDERING APP..')
   var token = useSelector(state => state.token)
   var User = useSelector(state => state.user)
   var dispatch = useDispatch()
@@ -31,15 +31,22 @@ function App() {
     token = MySession.GetToken()
   
     if (token) {
-      try {
-        //there is a token stored, validate it with server
         console.log('hay token, vamos a logearnos..')
-        dispatch(LoginUserThunkFromToken(token)).unwrap()
-      }
-      catch (err) {
-        console.error('Failed to login user from token: ', err)
-      }
+        if (User.status === 'failed' && User.error === 'Server is down:TypeError: Failed to fetch') {
+          //server is down, we will retry in 1 minute
+          console.warn('*****server is down, we will retry in 1 minute')
+          setTimeout(() => {
+            console.log('PASO UN MINUTO HORA DE INTENTAR OTRA VEZ!!!')
+            dispatch(LoginUserThunkFromToken(token)).unwrap()  
+          }, 10000);
+        }
+        else
+          dispatch(LoginUserThunkFromToken(token)).unwrap()
     }
+    else {
+      console.log('no hay token, NO vamos a logearnos..')
+    }
+
   }
 
   console.log('a punto return app()..')

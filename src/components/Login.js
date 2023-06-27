@@ -83,8 +83,10 @@ const Login = () => {
       if (loginStatusError === 'invalid or expired token!')
         //failed becaue it was trying to login from token and the token is expired or invalid.
         strUserMessage = 'Your previous session expired. Please log in again'
-      else
+      else if (loginStatusError === 'Server is down:TypeError: Failed to fetch')
         //failed becaue it was trying to login with a wrong user/password combination
+        strUserMessage = 'Ooops, i could not reach our server. Please try again later.'
+      else
         strUserMessage = loginStatusError
       break;
     }
