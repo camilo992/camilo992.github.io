@@ -49,8 +49,9 @@ const initialState = {
        })          
        .catch(error => {
          //just show error to user
-         console.log('error puaca: ' + error)
-         dataReturn = {error: 'Server is down:' + error}
+         console.log('error con el server : ')
+         console.log(error)
+         dataReturn = {error: 'Damn! I forgot what I was doing. Could you repeat?'}
         });
         return dataReturn
      }
@@ -78,7 +79,7 @@ const initialState = {
       })
       .addCase(InsertChatBotMessageThunk.rejected, (state, action) => {
         state.status = 'failed'
-        state.error = action.error.message
+        state.error = action.error
       })
       .addCase(InsertChatBotMessageThunk.fulfilled, (state, action) => {
           
