@@ -36,7 +36,6 @@ const initialState = {
         if (!data.error){
           //stores message in chat 
           Message.text = data.result;
-          console.log('chat server response: ' + data.result)
         }
         else {
           //something went wrong  
@@ -49,9 +48,7 @@ const initialState = {
        })          
        .catch(error => {
          //just show error to user
-         console.log('error con el server : ')
-         console.log(error)
-         dataReturn = {error: 'Damn! I forgot what I was doing. Could you repeat?'}
+         dataReturn = {error: 'Ome gonorrea, el server se cayó.. me podés repetir eso?'}
         });
         return dataReturn
      }
@@ -96,8 +93,6 @@ const initialState = {
           }
           else {
             state.status = 'succeeded'
-            console.log('SUCEEDED chat server response: ')
-            console.log(action.payload)
             state.messages.push(action.payload)
           }
       })
