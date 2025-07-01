@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { GoogleLogin} from '@react-oauth/google';
-import jwtDecode from 'jwt-decode'
+import {jwtDecode} from 'jwt-decode'
 import {Link} from 'react-router-dom';
 import {Form, Container, Row, Col, Modal, Image} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';

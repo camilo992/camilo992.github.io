@@ -1,11 +1,11 @@
 // Constants.js
 const prod = {
-     API_URL: 'https://taoke-api.vercel.app/api'
+     //API_URL: 'https://taoke-api.vercel.app/api'
+     API_URL: 'http://localhost:3001/api'
 };
 
 const dev = {
-     API_URL: 'http://localhost:3000/api'
-     //API_URL: 'http://192.168.100.143:3000/api'
+     API_URL: 'http://localhost:3001/api'
 };
 
 export const GOOGLE_CLIENT_ID = "1038408980220-a7dfih0lmem773bfgj008pegag4tiopo.apps.googleusercontent.com" 
